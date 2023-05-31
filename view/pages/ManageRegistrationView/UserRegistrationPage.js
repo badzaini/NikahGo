@@ -1,5 +1,5 @@
 import React from 'react';
-import SignUp from '../../../screens/module1/signup';
+import SignUp from '../../screens/module1/signup';
 
 export default function SignUpPage() {
   return (
