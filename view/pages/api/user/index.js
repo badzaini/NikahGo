@@ -9,3 +9,12 @@ export async function registerUser({ data }) {
 
     return res;
 }
+
+export async function loginUser({ email }) {
+    const res = await apiRequest({
+        path: `/users/login/${email}`,
+        method: "GET",
+    })
+
+    return res;
+}
