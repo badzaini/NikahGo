@@ -12,7 +12,8 @@ import {
   Checkbox,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  FormControl
 } from "@mui/material";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../fbConfig";
@@ -36,19 +37,21 @@ function Copyright(props) {
   );
 }
 
-const male = { inputProps: { "aria-label": "Male" } };
-const female = { inputProps: { "aria-label": "Male" } };
-
 export default function SignUp() {
   const [email, setEmail] = useState();
+  const [name, setName] = useState();
+  const [ic, setIc] = useState();
+  const [phone, setPhone] = useState();
+  const [gender, setGender] = useState();
   const [password, setPassword] = useState();
-  const [gender, setGender] = useState("");
-  const [male, setMale] = useState("");
-  const [female, setFemale] = useState("");
 
   const router = useRouter();
   const data = {
     email: email,
+    name: name,
+    ic: ic,
+    phone: phone,
+    gender: gender,
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,18 +81,14 @@ export default function SignUp() {
         // ..
       });
 
-    router.push("/module1/login");
-  };
-
-  const handleChange = (event) => {
-    setGender(event.target.value);
+    router.push("/Registration/Login");
   };
 
   return (
     <Container maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 15,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -117,45 +116,55 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={(e) => setName(e.target.value)}
                 required
                 fullWidth
                 id="name"
                 label="Name"
                 name="name"
                 autoComplete="name"
+                value={name || ""}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={(e) => setIc(e.target.value)}
                 required
                 fullWidth
                 id="ic"
                 label="IC "
                 name="ic"
                 autoComplete="ic"
+                value={ic || ""}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={(e) => setPhone(e.target.value)}
                 required
                 fullWidth
                 id="phone"
                 label="Phone Number "
                 name="phone"
                 autoComplete="phone"
+                value={phone || ""}
               />
             </Grid>
             <Grid item xs={12}>
-              <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Gender"
-                onChange={handleChange}
-              >
-                <MenuItem value={male}>Male</MenuItem>
-                <MenuItem value={female}>Female</MenuItem>
-              </Select>
+              <FormControl fullWidth margin='normal'>
+                <InputLabel id="demo-simple-select-label">Gender*</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={gender || ""}
+                  label="Gender"
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <MenuItem value={""}>None</MenuItem>
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -181,7 +190,7 @@ export default function SignUp() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/module1/login" variant="caption">
+              <Link href="/Registration/Login" variant="caption">
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -10,10 +10,13 @@ import {
 } from '@mui/material';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../../fbConfig';
+import { loginUser } from '../../../pages/api/user';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,11 +26,23 @@ export default function Login() {
         // Signed in 
         const user = userCredential.user;
         console.log('User exist:', user);
+        async function getData() {
+          if (user) {
+            const result = await loginUser({ email });
+            console.log(result);
+            console.log("Succes from db");
+          } else {
+            console.log("error from db");
+          }
+        }
+
+        getData();
+        router.push("/UserProfile/Profile");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.error('Error creating user:', errorCode, errorMessage);
+        console.error('Error get user:', errorCode, errorMessage);
       });
   };
 
@@ -82,7 +97,7 @@ export default function Login() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/module1/signup" variant="caption">
+              <Link href="/Registration/SignUp" variant="caption">
                 Don't have an account? Sign Up
               </Link>
             </Grid>
