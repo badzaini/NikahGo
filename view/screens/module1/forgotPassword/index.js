@@ -8,20 +8,20 @@ import {
   Container,
   Box
 } from '@mui/material';
-import { signInWithkpAndpass } from "firebase/auth";
+import { signInWithkpAndemail } from "firebase/auth";
 import { auth } from '../../../fbConfig';
 import { loginUser } from '../../../pages/api/user';
 import { useRouter } from 'next/router';
 
 export default function Login() {
   const [kp, setkp] = useState("");
-  const [pass, setpass] = useState("");
+  const [email, setemail] = useState("");
   const router = useRouter();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    signInWithkpAndpass(auth, kp, pass)
+    signInWithkpAndemail(auth, kp, email)
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
@@ -47,21 +47,20 @@ export default function Login() {
   };
 
   return (
-    <Container maxWidth="xs" >
+    <Container maxWidth="xs">
       <Box
         sx={{
           marginTop: 20,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          marginLeft: 'auto' 
         }}
       >
         {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar> */}
         <Typography component="h1" variant="h5">
-          LOG MASUK
+          Lupa Kata Laluan
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -80,13 +79,13 @@ export default function Login() {
             margin="normal"
             required
             fullWidth
-            name="pass"
-            label="Kata Laluan"
-            type="pass"
-            id="pass"
-            autoComplete="current-pass"
-            value={pass}
-            onChange={(event) => setpass(event.target.value)}
+            name="email"
+            label="Email"
+            type="email"
+            id="email"
+            autoComplete="current-email"
+            value={email}
+            onChange={(event) => setemail(event.target.value)}
           />
           <Button
             type="submit"
@@ -94,23 +93,12 @@ export default function Login() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Masuk
-          </Button>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 0.5, mb: 2 }}
-          >
-            Log Masuk Kakitangan
+            Hantar Kata Laluan
           </Button>
           <Grid container justifyContent="center" alignItems="center">
             <Grid item>
-              <Link href="/Registration/SignUp" variant="caption" sx={{ marginRight: '5px' }}>
-                Daftar |
-              </Link>
-              <Link href="/Registration/ForgotPassword" variant="caption" sx={{ marginRight: '5px' }}>
-                Lupa Kata Laluan?
+              <Link href="/Registration/SignUp" variant="caption">
+                Daftar
               </Link>
             </Grid>
           </Grid>
