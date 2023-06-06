@@ -18,6 +18,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import GroupsIcon from '@mui/icons-material/Groups';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Link from 'next/link';
 
 const drawerWidth = 240;
 
@@ -36,14 +37,16 @@ const Sidebar = () => {
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
                     <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <AccountCircleIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Profile" />
-                            </ListItemButton>
-                        </ListItem>
+                        <Link href="/UserProfile/Profile">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <AccountCircleIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Profile" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
@@ -60,14 +63,16 @@ const Sidebar = () => {
                                 <ListItemText primary="Permohonan Berkahwin" />
                             </ListItemButton>
                         </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <GroupsIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Pendaftaran Berkahwin" />
-                            </ListItemButton>
-                        </ListItem>
+                        <Link href="/MarriageRegistration/Request">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <GroupsIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Pendaftaran Berkahwin" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
