@@ -47,14 +47,16 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <AppRegistrationIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Daftar Kursus Pra Perkahwinan" />
-                            </ListItemButton>
-                        </ListItem>
+                        <Link href="/PreMarriageCourse/CourseRegistration">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <AppRegistrationIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Daftar Kursus Pra Perkahwinan" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
@@ -73,14 +75,17 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <RecordVoiceOverIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Khidmat Nasihat" />
-                            </ListItemButton>
-                        </ListItem>
+                        <Link href="/module4/consultationApplicationView/ConsultationRegisterList">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <RecordVoiceOverIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Khidmat Nasihat" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>

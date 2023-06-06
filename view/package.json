@@ -17,14 +17,12 @@
     "@mui/x-date-pickers": "^6.5.0",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.4.0",
-    "dayjs": "^1.11.7",
+    "dayjs": "^1.11.8",
     "firebase": "^9.22.1",
-
     "next": "13.4.3",
     "popper.js": "^1.16.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
-
   },
   "devDependencies": {
     "eslint": "8.41.0",
