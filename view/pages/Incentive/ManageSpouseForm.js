@@ -11,7 +11,7 @@ import {
   
   export default function spouseForm() {
     return (
-      <Container maxWidth="xs">
+      <Container sx={{justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }}>
         <Box
           sx={{
             marginTop: 8,
@@ -23,9 +23,9 @@ import {
           {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                       <LockOutlinedIcon />
                   </Avatar> */}
-          <Typography component="h1" variant="h5">
-            Insentif Khas - Spouse Form
-          </Typography>
+          <Box>
+                <Typography variant="h4" gutterBottom sx={{ borderLeft: "13px solid black" }}>BORANG PASANGAN PEMOHON</Typography>
+         </Box>
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -33,7 +33,7 @@ import {
                   required
                   fullWidth
                   id="name"
-                  label="Name"
+                  label="Nama"
                   name="name"
                   autoComplete="name"
                 />
@@ -43,7 +43,7 @@ import {
                   required
                   fullWidth
                   id="ic"
-                  label="IC "
+                  label="No. Passport/Tentera/Polis "
                   name="ic"
                   autoComplete="ic"
                 />
@@ -53,7 +53,7 @@ import {
                   required
                   fullWidth
                   id="identification"
-                  label="Identification Number "
+                  label="No. K/Pengenalan "
                   name="identification"
                   autoComplete="identification"
                 />
@@ -63,7 +63,7 @@ import {
                   required
                   fullWidth
                   id="phone"
-                  label="Phone Number "
+                  label="No. telefon "
                   name="phone"
                   autoComplete="phone"
                 />
@@ -73,7 +73,7 @@ import {
                   required
                   fullWidth
                   id="age"
-                  label="Age "
+                  label="Umor "
                   name="age"
                   autoComplete="age"
                 />
@@ -83,7 +83,7 @@ import {
                   required
                   fullWidth
                   id="place"
-                  label="Place Of Birth"
+                  label="Tempat Lahir"
                   name="place"
                   autoComplete="place"
                 />
@@ -93,7 +93,7 @@ import {
                   required
                   fullWidth
                   id="date"
-                  label="Date Of Birth "
+                  label="No. Tarikh Lahir "
                   name="date"
                   autoComplete="date"
                 />
@@ -103,7 +103,7 @@ import {
                   required
                   fullWidth
                   id="address"
-                  label="Address "
+                  label="Alamat Semasa "
                   name="address"
                   autoComplete="address"
                 />
@@ -113,7 +113,7 @@ import {
                   required
                   fullWidth
                   id="nationality"
-                  label="Nationality "
+                  label="Kewarganegarana "
                   name="nationality"
                   autoComplete="nationalty"
                 />
@@ -124,7 +124,7 @@ import {
                   required
                   fullWidth
                   id="Income"
-                  label="Income  "
+                  label="Pendopatan"
                   name="Income"
                   autoComplete="Income"
                 />
@@ -137,7 +137,7 @@ import {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Kemaskini
+              SETERUSNYA
             </Button>
           </Box>
         </Box>

@@ -9,7 +9,7 @@ import {
   dividerClasses
 } from '@mui/material';
 
-export default function incentiveForm() {
+export default function incentiveDocuments() {
   return (
     <Container maxWidth="xs">
       <Box
@@ -78,7 +78,7 @@ export default function incentiveForm() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Kemaskini
+              KEMASKINI
             </Button>
     </Container>
   );

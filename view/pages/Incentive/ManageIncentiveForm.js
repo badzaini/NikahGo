@@ -11,7 +11,10 @@ import {
 
 export default function incentiveForm() {
   return (
-    <Container maxWidth="xs">
+    
+
+      <Container sx={{justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }}>
+        
       <Box
         sx={{
           marginTop: 8,
@@ -23,9 +26,9 @@ export default function incentiveForm() {
         {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
                 </Avatar> */}
-        <Typography component="h1" variant="h5">
-        Insentif Khas - incentiveForm
-        </Typography>
+        <Box>
+                <Typography variant="h4" gutterBottom sx={{ borderLeft: "13px solid black" }}>BORANG PEMOHON</Typography>
+        </Box>
         <Box component="form" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
@@ -33,7 +36,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="name"
-                label="Name"
+                label="Nama"
                 name="name"
                 autoComplete="name"
               />
@@ -43,7 +46,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="ic"
-                label="IC "
+                label="No. Passport/Tentera/Polis "
                 name="ic"
                 autoComplete="ic"
               />
@@ -53,7 +56,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="identification"
-                label="Identification Number "
+                label="No. K/Pengenalan "
                 name="identification"
                 autoComplete="identification"
               />
@@ -63,7 +66,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="phone"
-                label="Phone Number "
+                label="No. Telefon "
                 name="phone"
                 autoComplete="phone"
               />
@@ -73,7 +76,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="age"
-                label="Age "
+                label="Umor "
                 name="age"
                 autoComplete="age"
               />
@@ -83,7 +86,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="place"
-                label="Place Of Birth"
+                label="Tempat Lahir"
                 name="place"
                 autoComplete="place"
               />
@@ -93,7 +96,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="date"
-                label="Date Of Birth "
+                label="No. Tarikh Lahir "
                 name="date"
                 autoComplete="date"
               />
@@ -103,7 +106,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="address"
-                label="Address "
+                label="AddrAlamat Semasa "
                 name="address"
                 autoComplete="address"
               />
@@ -113,7 +116,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="nationality"
-                label="Nationality "
+                label="Kewarganegarana "
                 name="nationality"
                 autoComplete="nationalty"
               />
@@ -124,7 +127,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="Income"
-                label="Income  "
+                label="Pendopatan  "
                 name="Income"
                 autoComplete="Income"
               />
@@ -134,7 +137,7 @@ export default function incentiveForm() {
                 required
                 fullWidth
                 id="bank"
-                label="Bank Name  "
+                label="Nama Bank  "
                 name="bank"
                 autoComplete="bank"
               />
@@ -147,12 +150,13 @@ export default function incentiveForm() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Kemaskini
+            SETERUSNYA
           </Button>
           
         </Box>
       </Box>
-    </Container>
+      </Container>
+    
   );
 }
 
