@@ -1,5 +1,8 @@
 import { useState } from 'react';
-
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import {
   Button,
   TextField,
@@ -15,15 +18,16 @@ import {
   TableHead,
   TableRow,
   Paper,
-  
+  Stack,
+  IconButton 
 } from '@mui/material';
 
-function createData(bil, pengadu, pasangan, tarikh, status, operasi) {
-  return { bil, pengadu, pasangan, tarikh, status, operasi };
+function createData(bil, icPengadu, pengadu, icPasangan, pasangan, tarikh, status, operasi) {
+  return { bil, icPengadu, pengadu, icPasangan, pasangan, tarikh, status, operasi };
 }
 
 const rows = [
-  // createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData(1, '960723063233', 'AHMAD BIN ABDULLAH', '990202067822', 'NUR SURAYA BINTI KASIM', '07/01/2023', 'Simpan')
   // createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
   // createData('Eclair', 262, 16.0, 24, 6.0),
 ];
@@ -87,20 +91,57 @@ export default function ConsultationForm() {
                 <TableCell component="th" scope="row">
                   {row.bil}
                 </TableCell>
-                <TableCell align="center">{row.pengadu}</TableCell>
-                <TableCell align="center">{row.pasangan}</TableCell>
+                <TableCell align="left">{row.icPengadu}<br/>{row.pengadu}</TableCell>
+                <TableCell align="left">{row.icPasangan}<br/>{row.pasangan}</TableCell>
                 <TableCell align="center">{row.tarikh}</TableCell>
-                <TableCell align="center">{row.status}</TableCell>
-                <TableCell align="center">{row.operasi}</TableCell>
+                <TableCell align="center">
+                    {/* If else statement utk status */}
+                    {row.status == 'Lulus' 
+                    ? <Box sx={{bgcolor:"RGBA(53,180,33,0.8)", width:80, borderRadius:'16px'}}>Lulus</Box> //If Lulus
+                    : <Box sx={{bgcolor:"RGBA(243,14,42,0.7)", width:80, borderRadius:'16px'}}>Simpan</Box> } {/*If Simpan*/}
+                </TableCell>
+                <TableCell align="left">
+                  <Stack direction="row" spacing={1} sx={{color:'black'}}>
+                    <IconButton color="primary" disabled>
+                      <ModeEditIcon/>
+                    </IconButton >
+                    <IconButton  color="primary" disabled>
+                      <SearchIcon />
+                    </IconButton>
+                    <IconButton color="primary" disabled>
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton color="primary">
+                      <AccessTimeIcon/>
+                    </IconButton>
+                  </Stack>
+                </TableCell>
               </TableRow>
             ))}
-            <TableRow>
-            <TableCell colSpan={8} align="center">Tiada Rekod</TableCell> {/* If row dont have a data */}
-            </TableRow>
+            {
+              rows.length === 0 ? 
+              <TableRow>
+                <TableCell colSpan={8} align="center">Tiada Rekod</TableCell> {/* If row dont have a data */}
+              </TableRow> : null
+
+            }
           </TableBody>
         </Table>
       </TableContainer>
-
+      
+      <Box sx={{textAlign:"left", marginTop:4}}>
+        {rows.map((row) => (
+          row.status == 'Lulus' 
+          ? <><Box sx={{ width: 80, borderRadius: '16px', fontWeight: 'bold', color: 'red' }}>PERHATIAN!</Box><br/>
+          <Box sx={{display:'flex'}}>
+            <Typography>Permohonan Aduan / Khidmat Nasihat anda</Typography>
+            <Typography sx={{ fontWeight: 'bold'}}>&nbsp;TELAH DILULUSKAN.</Typography>
+            <Typography>&nbsp;Sila buat</Typography>
+            <Typography sx={{ fontWeight: 'bold'}}>&nbsp;Permohonan Temujanji.</Typography>
+            </Box></>//If yes
+          : null //If no
+        ))}
+      </Box>              
     </Container>
   );
 }
