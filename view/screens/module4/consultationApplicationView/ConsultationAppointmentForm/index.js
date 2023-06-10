@@ -160,7 +160,7 @@ export default function ConsultationForm() {
               <Select
                 labelId="counselor"
                 id="counselor"
-                value={place}
+                value={counselor}
                 label="Pegawai Khidmat Nasihat"
                 onChange={counselorHandleChange}
               >
