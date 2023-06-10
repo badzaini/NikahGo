@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router';
 import { styled, alpha } from '@mui/material/styles';
 import {
     TableContainer,
@@ -30,11 +31,16 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function Approve() {
+export default function Request() {
+    const router = useRouter();
+
+    const handleDaftar = () => {
+        router.push("/KadNikah/Apply");
+    }
     return (
         <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", mt: 20, width: 750 }}>
             <Box>
-                <Typography variant="h4" gutterBottom sx={{ borderLeft: "13px solid black" }}>Pendaftaran Perkahwinan</Typography>
+                <Typography variant="h4" gutterBottom sx={{ borderLeft: "13px solid black" }}>Permohonan Kad Nikah</Typography>
             </Box>
             <Box sx={{ py: 3, display: "flex", justifyContent: "center" }}>
                 <Paper
@@ -52,7 +58,7 @@ export default function Approve() {
                 </Paper>
             </Box>
             <Box sx={{ pb: 1 }}>
-                <Button variant="contained" sx={{ float: "right" }}>Daftar</Button>
+                <Button variant="contained" onClick={handleDaftar} sx={{ float: "right" }}>Daftar</Button>
             </Box>
             <TableContainer component={Paper} sx={{ maxWidth: 750 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
