@@ -17,6 +17,12 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import Grid from '@mui/material/Unstable_Grid2';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { useState } from 'react';
+import dayjs from "dayjs";
 
 
 function createData(bil, tempat, alamat, paid, daerah, yurankursus, kapasiti, tarikhmula, tarikhtamat, masamula, masatamat, pengawaicontact, telefon, catatan, publish, operasi) {
@@ -28,12 +34,14 @@ const rows = [
 ];
 
 
-export default function CourseInfoAdmin() {
+export default function AdminCourseInfo() {
     const [daerah, setDaerah] = React.useState('');
 
     const [paid, setPAID] = React.useState('');
 
     const [publish, setPublish] = React.useState('');
+    const [date, setDate] = useState(dayjs());
+    const [time, setTime] = useState(dayjs());
 
     const handleChangeDaerah = (event) => {
         setDaerah(event.target.value);
@@ -129,7 +137,7 @@ export default function CourseInfoAdmin() {
 
                         <Grid xs={6}>
                             {/* CourseFee*/}
-                            <TextField fullWidth id="outlined-basic" label="Yuran Kursus:" variant="outlined" required />
+                            <TextField fullWidth id="outlined-basic" label="Yuran Kursus:" variant="outlined" required >Yuran Kursus:</TextField>
                             <br /><br />
                         </Grid>
 
@@ -138,28 +146,60 @@ export default function CourseInfoAdmin() {
                             <TextField fullWidth id="outlined-basic" label="Kapasiti:" variant="outlined" required />
                             <br /><br />
                         </Grid>
-                        
+
                         <Grid xs={6}>
                             {/* Start Date*/}
-                            <TextField fullWidth id="outlined-basic" label="Tarikh Mula:" variant="outlined" required />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <FormControl fullWidth>
+                                    <DatePicker
+                                        label={<Grid sx={{ display: 'flex' }}>Tarikh Mula:<Typography sx={{ color: 'red' }}>*</Typography></Grid>}
+                                        value={date}
+                                        onChange={(newDate) => setDate(newDate)}
+                                    />
+                                </FormControl>
+                            </LocalizationProvider>
                             <br /><br />
                         </Grid>
 
                         <Grid xs={6}>
                             {/* End Date*/}
-                            <TextField fullWidth id="outlined-basic" label="Tarikh Tamat:" variant="outlined" required />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <FormControl fullWidth>
+                                    <DatePicker
+                                        label={<Grid sx={{ display: 'flex' }}>Tarikh Tamat:<Typography sx={{ color: 'red' }}>*</Typography></Grid>}
+                                        value={date}
+                                        onChange={(newDate) => setDate(newDate)}
+                                    />
+                                </FormControl>
+                            </LocalizationProvider>
                             <br /><br />
                         </Grid>
 
                         <Grid xs={6}>
                             {/* Start Time*/}
-                            <TextField fullWidth id="outlined-basic" label="Masa Mula:" variant="outlined" required />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <FormControl fullWidth>
+                                    <TimePicker
+                                        label={<Grid sx={{ display: 'flex' }}>Masa Mula:<Typography sx={{ color: 'red' }}>*</Typography></Grid>}
+                                        value={time}
+                                        onChange={(newTime) => setTime(newTime)}
+                                    />
+                                </FormControl>
+                            </LocalizationProvider>
                             <br /><br />
                         </Grid>
 
                         <Grid xs={6}>
                             {/* End Time*/}
-                            <TextField fullWidth id="outlined-basic" label="Masa Tamat:" variant="outlined" required />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <FormControl fullWidth>
+                                    <TimePicker
+                                        label={<Grid sx={{ display: 'flex' }}>Masa Tamat:<Typography sx={{ color: 'red' }}>*</Typography></Grid>}
+                                        value={time}
+                                        onChange={(newTime) => setTime(newTime)}
+                                    />
+                                </FormControl>
+                            </LocalizationProvider>
                             <br /><br />
                         </Grid>
 

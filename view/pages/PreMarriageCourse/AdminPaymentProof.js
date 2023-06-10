@@ -1,25 +1,21 @@
 import * as React from 'react';
 import {
     Button,
-    TextField,
-    Link,
-    Grid,
     Typography,
     Container,
     Box,
     Stack,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
     TableContainer,
     TableHead,
     TableCell,
     TableRow,
     TableBody,
     Table,
-    Paper
+    Paper,
+    InputBase,
+    IconButton
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 function createData(bil, tarikhpemohon, nopemohon, namapemohon, mykad, sirikursus, status, resit, operasi) {
     return { bil, tarikhpemohon, nopemohon, namapemohon, mykad, sirikursus, status, resit, operasi };
@@ -27,10 +23,9 @@ function createData(bil, tarikhpemohon, nopemohon, namapemohon, mykad, sirikursu
 
 const rows = [
     createData('1.', '20/01/2023', 'TLOH1P/2023-01651', 'SITI KHAIRIAH BINTI ABDULLAH', '800712111112', 'TLOH/0005/2023', '', '', ''),
-    createData('2.', '20/01/2023', 'TLOH1P/2023-01651', 'AINI IZZ IZYAN BIN TI ABD AZIZ', '800712111112', 'TLOH/0005/2023', '', '', ''),
 ];
 
-export default function ChooseCourse() {
+export default function AdminPaymentProof() {
 
     return (
         <Stack spacing={2}>
@@ -39,11 +34,33 @@ export default function ChooseCourse() {
 
                 <Typography variant="h4"><b>Maklumat Peserta</b></Typography>
 
-                <Typography variant="h5">
-                    <b>Pengesahan Bayaran Yuran Kursus</b>
-                </Typography>
+                <Container>
 
-                <br /><br />
+                </Container>
+
+                <Box sx={{ marginTop: 2, bgcolor: '#49516F', color: 'white', width: 400, height: 30, borderRadius: 1 }}>
+                    <Typography variant="body" sx={{ fontSize: '20px', marginLeft: 4 }}>
+                        Pengesahan Bayaran Yuran Kursus
+                    </Typography>
+                </Box>
+
+                {/*this is the peserta list for searching function*/}
+                <Box sx={{ py: 3, display: "flex", justifyContent: "right" }}>
+                    <Paper
+                        component="form"
+                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300 }}
+                    >
+                        <InputBase
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder="Pilih Carian"
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                            <SearchIcon />
+                        </IconButton>
+                    </Paper>
+                </Box>
+                
                 <TableContainer sx={{ minWidth: 500 }} component={Paper}>
                     <Table sx={{ minWidth: 400 }} aria-label="simple table">
                         <TableHead>
