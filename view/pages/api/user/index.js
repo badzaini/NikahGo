@@ -18,3 +18,12 @@ export async function loginUser({ email }) {
 
     return res;
 }
+
+export async function getAll() {
+    const res = await apiRequest({
+        path: `/users/all`,
+        method: "GET",
+    })
+
+    return res;
+}
