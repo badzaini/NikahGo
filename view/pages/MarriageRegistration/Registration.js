@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router';
 import {
     TableContainer,
     Table,
@@ -25,6 +26,15 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 export default function Registration() {
+    const router = useRouter();
+
+    const handleTeruskan = () => {
+        router.push("/MarriageRegistration/MarriageForm");
+    }
+
+    const handleKembali = () => {
+        router.push("/MarriageRegistration/Request");
+    }
     return (
         <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", mt: 20, width: 750, alignItems: "center" }}>
             <Box>
@@ -50,8 +60,8 @@ export default function Registration() {
 
                 <TextField id="outlined-basic" label="No. Slip Permohonan" variant="outlined" sx={{ width: 300 }} />
                 <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
-                    <Button variant="contained" sx={{ mr: 2 }}>Teruskan</Button>
-                    <Button variant="contained" sx={{ ml: 2 }}>Kembali</Button>
+                    <Button variant="contained" onClick={handleKembali} sx={{ ml: 2 }}>Kembali</Button>
+                    <Button variant="contained" onClick={handleTeruskan} sx={{ mr: 2 }}>Teruskan</Button>
                 </Box>
             </Stack>
         </Container>

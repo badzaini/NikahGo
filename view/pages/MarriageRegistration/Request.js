@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router';
 import { styled, alpha } from '@mui/material/styles';
 import {
     TableContainer,
@@ -31,6 +32,11 @@ const rows = [
 ];
 
 export default function Request() {
+    const router = useRouter();
+
+    const handleDaftar = () => {
+        router.push("/MarriageRegistration/Registration");
+    }
     return (
         <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", mt: 20, width: 750 }}>
             <Box>
@@ -43,7 +49,7 @@ export default function Request() {
                 >
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
-                        placeholder="No. K/P Pasangan"
+                        placeholder="No. K/P"
                         inputProps={{ 'aria-label': 'search' }}
                     />
                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
@@ -52,14 +58,14 @@ export default function Request() {
                 </Paper>
             </Box>
             <Box sx={{ pb: 1 }}>
-                <Button variant="contained" sx={{ float: "right" }}>Daftar</Button>
+                <Button variant="contained" onClick={handleDaftar} sx={{ float: "right" }}>Daftar</Button>
             </Box>
             <TableContainer component={Paper} sx={{ maxWidth: 750 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Bil</TableCell>
-                            <TableCell align="right">N0. K/P</TableCell>
+                            <TableCell align="right">No. K/P</TableCell>
                             <TableCell align="right">No. Slip Permohonan</TableCell>
                             <TableCell align="right">Tarikh Mohon</TableCell>
                             <TableCell align="right">Status</TableCell>

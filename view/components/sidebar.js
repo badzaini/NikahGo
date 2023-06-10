@@ -75,6 +75,16 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
+                        <Link href="/KadNikah/Request">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <GroupsIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Mohon Kad Nikah" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                         <Link href="/module4/consultationApplicationView/ConsultationRegisterList">
                             <ListItem disablePadding>
                                 <ListItemButton>
