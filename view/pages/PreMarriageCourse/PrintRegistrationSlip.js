@@ -22,25 +22,23 @@ export default function CourseRegistration() {
                     </Typography>
                 </Box>
                 <br />
-                <Container sx={{ display: "", justifyContent: "center", width: "70%", height: "100%", backgroundColor:"#faf5f5"}} component={Paper}>
-                <br />
+                <Container sx={{ display: "", justifyContent: "center", width: "70%", height: "100%", backgroundColor: "#faf5f5" }} component={Paper}>
+                    <br />
                     <Typography variant="body" component='p'>
                         <b>Anjuran:</b><br /><br />
                         <b>Tempat:</b><br /><br />
-                        <b>Alamat:</b><br /><br />
-                        <b>Daerah:</b><br /><br />
                         <b>Yuran Kursus:</b><br /><br />
                         <b>Tarikh:</b><br /><br />
                         <b>Masa:</b><br /><br />
                         <b>Yuran Kursus Pra Perkahwinan:</b><br /><br />
-                        <b>Kapasiti Peserta:</b><br /><br />
                         <b>Siri Taklimat:</b><br /><br />
                         <b>Pengawai Dihubungi:</b><br /><br />
                         <b>No Telefon:</b><br /><br />
                     </Typography>
 
                     <Box align="center">
-                        <Button variant="contained">Kembali</Button>
+                        <Button variant="contained">Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button variant="contained">Cetak Slip</Button>
                     </Box>
                     <br /><br />
                 </Container>
