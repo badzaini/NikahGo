@@ -35,7 +35,7 @@ export default function CourseRegistration() {
             <br /><br />
 
             <Box align="center">
-                <Button variant="contained">Kembali</Button>&nbsp;&nbsp;
+                <Button variant="contained">Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <Button variant="contained">Print</Button>
             </Box>
 
