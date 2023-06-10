@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, Fragment } from "react";
 import {
     Button,
     Typography,
@@ -13,7 +14,7 @@ import {
     Table,
     Paper
 } from '@mui/material';
-
+import { useRouter } from 'next/router';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import WarningIcon from '@mui/icons-material/Warning';
 
@@ -26,7 +27,11 @@ const rows = [
 ];
 
 export default function FirstPage() {
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
 
+    const handleNext = () => {
+      router.push("/MarriageApplication/MarriageAppForm");
+    };
     return (
         <Stack spacing={2}>
             <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }} component={Paper}>
@@ -108,7 +113,7 @@ export default function FirstPage() {
                 <br />
             
                 <Box sx={{ minWidth: 500 }} align="center">
-                    <Button variant="contained">Daftar Baru</Button>
+                    <Button variant="contained" onClick={handleNext}>Daftar Baru</Button>
                 </Box>
                 <br /><br />
 
