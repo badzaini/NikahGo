@@ -97,9 +97,16 @@ export default function SignUp() {
         {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
                 </Avatar> */}
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
+       <Box sx={{ ml: 1, width: "100%" }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ borderLeft: "13px solid #F3486A" }}
+          >
+            {" "}
+            &nbsp; Daftar Pengguna
+          </Typography>
+        </Box>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -108,7 +115,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Emel"
                 name="email"
                 autoComplete="email"
                 value={email || ""}
@@ -120,34 +127,10 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="name"
-                label="Name"
+                label="Nama"
                 name="name"
                 autoComplete="name"
                 value={name || ""}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                onChange={(e) => setIc(e.target.value)}
-                required
-                fullWidth
-                id="ic"
-                label="IC "
-                name="ic"
-                autoComplete="ic"
-                value={ic || ""}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                fullWidth
-                id="phone"
-                label="Phone Number "
-                name="phone"
-                autoComplete="phone"
-                value={phone || ""}
               />
             </Grid>
             <Grid item xs={12}>
@@ -168,11 +151,35 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                fullWidth
+                id="phone"
+                label="No Telefon "
+                name="phone"
+                autoComplete="phone"
+                value={phone || ""}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={(e) => setIc(e.target.value)}
+                required
+                fullWidth
+                id="ic"
+                label="Kad Pengenalan "
+                name="ic"
+                autoComplete="ic"
+                value={ic || ""}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Kata Laluan"
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -184,14 +191,14 @@ export default function SignUp() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, backgroundColor: " #F3486A" }}
           >
-            Sign Up
+            Daftar
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="center" >
             <Grid item>
-              <Link href="/Registration/Login" variant="caption">
-                Already have an account? Sign in
+              <Link href="/Registration/Login" variant="caption" sx={{ color: "#F3486A" }} >
+                 [ Kembali ]
               </Link>
             </Grid>
           </Grid>

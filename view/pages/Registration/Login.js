@@ -59,16 +59,23 @@ export default function Login() {
         {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar> */}
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+        <Box sx={{ ml: 1, width: "100%" }}>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ borderLeft: "13px solid #F3486A" }}
+          >
+            {" "}
+            &nbsp; Log Masuk
+          </Typography>
+        </Box>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Emel"
             name="email"
             autoComplete="email"
             autoFocus
@@ -80,7 +87,7 @@ export default function Login() {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="Kata Laluan"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -91,16 +98,27 @@ export default function Login() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, backgroundColor: " #F3486A" }}
           >
-            Sign In
+            Masuk
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2, backgroundColor: "#1E89A0" }}
+          >
+            Log Masuk Kakitangan
+          </Button>
+          <Grid container justifyContent="center">
             <Grid item>
-              <Link href="/Registration/SignUp" variant="caption" sx={{ marginRight: '5px' }}>
-                Daftar
+              <Link href="/Registration/SignUp" variant="caption" sx={{ marginRight: '10px', color: " #F3486A"  }}>
+                Daftar 
               </Link>
-              <Link href="/Registration/ForgotPassword" variant="caption" sx={{ marginRight: '5px' }}>
+              <Link href="/Registration/SignUp" variant="caption" sx={{  marginRight: '10px', color: " #F3486A" }}>
+                 |
+              </Link>
+              <Link href="/Registration/ForgotPassword" variant="caption" sx={{ marginRight: '5px', color: " #F3486A" }}>
                 Lupa Kata Laluan?
               </Link>
             </Grid>
