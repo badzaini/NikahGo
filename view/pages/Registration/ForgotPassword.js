@@ -32,16 +32,6 @@ export default function ForgotPassword() {
             margin="normal"
             required
             fullWidth
-            id="kp"
-            label="No Kad Pengenalan"
-            name="kp"
-            autoComplete="kp"
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
             name="email"
             label="Email"
             type="email"
@@ -56,13 +46,6 @@ export default function ForgotPassword() {
           >
             Hantar Kata Laluan
           </Button>
-          <Grid container justifyContent="center" alignItems="center">
-            <Grid item>
-              <Link href="/Registration/SignUp" variant="caption">
-                Daftar
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>

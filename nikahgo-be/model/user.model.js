@@ -20,6 +20,33 @@ const userSchema = new mongoose.Schema({
     gender: {
         required: true,
         type: String
+    },
+    birth: {
+        type: Date
+    },
+    nationality: {
+        type: String
+    },
+    citizenship: {
+        type: String
+    },
+    address: {
+        type: String
+    },
+    education: {
+        type: String
+    },
+    employSector: {
+        type: String
+    },
+    occupation: {
+        type: String
+    },
+    employAddress: {
+        type: String
+    },
+    income: {
+        type: Number
     }
 })
 

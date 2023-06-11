@@ -31,3 +31,4 @@ app.listen(8000, () => {
 
 const user = require('./routes/user.router');
 app.use('/users', user)
+

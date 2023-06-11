@@ -60,7 +60,7 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar> */}
         <Typography component="h1" variant="h5">
-          Sign in
+          Log Masuk
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -91,9 +91,17 @@ export default function Login() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, bgcolor: "#F3486A" }}
           >
-            Sign In
+            Log Masuk
+          </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2, backgroundColor: "#1E89A0" }}
+          >
+            Log Masuk Kakitangan
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>

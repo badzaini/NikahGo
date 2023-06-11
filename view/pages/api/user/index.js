@@ -27,3 +27,13 @@ export async function getAll() {
 
     return res;
 }
+
+export async function updateProfile({ email, profileData }) {
+    const res = await apiRequest({
+        path: `/users/${email}/profile`,
+        method: "PUT",
+        body: profileData,
+    });
+
+    return res;
+}
