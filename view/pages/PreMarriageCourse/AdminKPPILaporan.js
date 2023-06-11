@@ -14,20 +14,15 @@ import {
     Divider,
     Checkbox
 } from '@mui/material'
-import TableContainer from '@mui/material/TableContainer';
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
-import TableBody from '@mui/material/TableBody';
-import SearchIcon from '@mui/icons-material/Search';
+
+import { useRouter } from 'next/router';
 
 
 export default function AdminKPPILaporan() {
     const [paid, setPAID] = React.useState('');
     const [tahun, setTahun] = React.useState('');
     const [sirikursus, setSirikursus] = React.useState('');
-    
+
     const handleChangePAID = (event) => {
         setPAID(event.target.value);
     };
@@ -39,7 +34,15 @@ export default function AdminKPPILaporan() {
     const handleChangeSirikursus = (event) => {
         setSirikursus(event.target.value);
     };
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
 
+    const handleConfirm = () => {
+        router.push("/PreMarriageCourse/AdminKPPILaporan");
+    };
+
+    const handleNext = () => {
+        router.push("/PreMarriageCourse/AdminPemohonListLaporan");
+    };
     return (
         <Stack spacing={2}>
 
@@ -141,8 +144,9 @@ export default function AdminKPPILaporan() {
                     <br /><br />
                 </Box>
                 <Container>
-                    <Box align="center">
-                        <Button variant="contained">Senarai Peserta</Button>
+                    <Box sx={{ minWidth: 500 }} align="center">
+                        <Button variant="contained" onClick={handleConfirm}>Juna Senarai</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button variant="contained" onClick={handleNext}>Seterusnya</Button>
                     </Box>
                     <br /><br />
                 </Container>

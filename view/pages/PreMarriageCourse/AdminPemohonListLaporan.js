@@ -11,6 +11,7 @@ import {
     Stack,
     Paper
 } from '@mui/material'
+import { useRouter } from 'next/router';
 
 export default function AdminPemohonListLaporan() {
     const [paid, setPAID] = React.useState('');
@@ -18,7 +19,7 @@ export default function AdminPemohonListLaporan() {
     const [sirikursus, setSirikursus] = React.useState('');
     const [jantina, setJantina] = React.useState('');
     const [status, setStatus] = React.useState('');
-    
+
     const handleChangePAID = (event) => {
         setPAID(event.target.value);
     };
@@ -37,6 +38,16 @@ export default function AdminPemohonListLaporan() {
 
     const handleChangeStatus = (event) => {
         setStatus(event.target.value);
+    };
+
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    const handleConfirm = () => {
+        router.push("/PreMarriageCourse/AdminPemohonListLaporan");
+    };
+
+    const handleNext = () => {
+        router.push("/PreMarriageCourse/AdminPesertaListLaporan");
     };
     return (
         <Stack spacing={2}>
@@ -172,8 +183,9 @@ export default function AdminPemohonListLaporan() {
                     <br /><br />
                 </Box>
                 <Container>
-                    <Box align="center">
-                        <Button variant="contained">Senarai Peserta</Button>
+                    <Box sx={{ minWidth: 500 }} align="center">
+                        <Button variant="contained" onClick={handleConfirm}>Juna Senarai</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button variant="contained" onClick={handleNext}>Seterusnya</Button>
                     </Box>
                     <br /><br />
                 </Container>

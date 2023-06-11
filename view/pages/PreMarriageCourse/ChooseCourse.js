@@ -16,16 +16,53 @@ import {
     IconButton
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useRouter } from 'next/router';
+import PageviewIcon from '@mui/icons-material/Pageview';
 
-function createData(bil, anjuran, tempat, tarikh, kapasiti, kekosongan, paparlanjut, daftarpenyertaan) {
-    return { bil, anjuran, tempat, tarikh, kapasiti, kekosongan, paparlanjut, daftarpenyertaan };
-}
 
-const rows = [
-    createData('1.', 'Pejabat Agama Islam Temerloh', 'Dewan Kuliah Mashas Temerloh', '28/01/2023 - 29/01/2023', '84', '5', '', ''),
-];
+
 
 export default function ChooseCourse() {
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    const handleBack = () => {
+        router.push("/PreMarriageCourse/CourseTerm");
+    };
+
+    const handleViewCourseDetails = () => {
+        router.push("/PreMarriageCourse/CourseDetails");
+    };
+
+    const handleConfirm = () => {
+        router.push("/PreMarriageCourse/RegistrationForm");
+    };
+
+    function createData(bil, anjuran, tempat, tarikh, kapasiti, kekosongan, paparlanjut, daftarpenyertaan) {
+        return {
+            bil,
+            anjuran,
+            tempat,
+            tarikh,
+            kapasiti,
+            kekosongan,
+            paparlanjut: paparlanjut ? (
+                <>
+                    <IconButton onClick={handleViewCourseDetails} type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
+                        <PageviewIcon />
+                    </IconButton>
+                </>
+            ) : null,
+            daftarpenyertaan: daftarpenyertaan ? (
+                <>
+                    <Button variant="contained" onClick={handleConfirm} >Daftar</Button>
+                </>
+            ) : null,
+        };
+    }
+
+    const rows = [
+        createData('1.', 'Pejabat Agama Islam Temerloh', 'Dewan Kuliah Mashas Temerloh', '28/01/2023 - 29/01/2023', '84', '5', true, true),
+    ];
 
     return (
         <Stack spacing={2}>
@@ -111,7 +148,7 @@ export default function ChooseCourse() {
                                         <TableCell align="center">{row.tarikh}</TableCell>
                                         <TableCell align="center">{row.kapasiti}</TableCell>
                                         <TableCell align="center">{row.kekosongan}</TableCell>
-                                        <TableCell align="center">{row.paparlanjut}</TableCell>
+                                        <TableCell align="center" sx={{ width: '20%' }}>{row.paparlanjut}</TableCell>
                                         <TableCell align="center">{row.daftarpenyertaan}</TableCell>
                                     </TableRow>
                                 ))}
@@ -120,7 +157,7 @@ export default function ChooseCourse() {
                     </TableContainer>
                     <br /><br />
                     <Box align="center">
-                        <Button variant="contained">Kembali</Button>
+                        <Button variant="contained" onClick={handleBack} >Kembali</Button>
                     </Box>
                     <br /><br />
                 </Container>

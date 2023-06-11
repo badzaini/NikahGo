@@ -17,8 +17,14 @@ import {
     Divider,
     Checkbox
 } from '@mui/material';
+import { useRouter } from 'next/router';
 
-export default function CourseRegistration() {
+export default function SlipButton() {
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    const handleConfirmPrint = () => {
+        router.push("/PreMarriageCourse/PrintRegistrationSlip");
+    };
     return (
         <Stack spacing={2}>
             <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 20, ml:40 }} component={Paper}>
@@ -52,8 +58,7 @@ export default function CourseRegistration() {
                     <br />
 
                     <Box align="center">
-                        <Button variant="contained">Daftar Penyertaan</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button variant="contained">Cetak Slip Permohonan</Button>
+                        <Button variant="contained" onClick={handleConfirmPrint}>Cetak Slip Permohonan</Button>
                     </Box>
                     <br />
                 </Container>
