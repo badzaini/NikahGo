@@ -19,7 +19,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({
-  variant: 'h4',
+  variant: 'h1',
   gutterBottom: true,
   borderLeft: '13px solid black',
 }));
@@ -165,17 +165,21 @@ export default function IncentiveForm() {
               </Grid>
             </Grid>
             {/* Submit Button */}
-            <Button
+            <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
+             <Button
               type="submit"
               fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              SETERUSNYA
-            </Button>
-          </Box>
-        </FormContainer>
-      </Box>
-    </Container>
+               variant="contained"
+               sx={{ mt: 3, mb: 2 }}
+               onClick={IncentiveForm}
+              >
+               SETERUSNYA
+             </Button>
+               </Box>
+
+                 </Box>
+                </FormContainer>
+              </Box>
+            </Container>
   );
 }
