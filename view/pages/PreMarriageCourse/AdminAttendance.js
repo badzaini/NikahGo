@@ -17,6 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import SearchIcon from '@mui/icons-material/Search';
+import { useRouter } from 'next/router';
 
 function createData(bil, namepemohon, mykad, jantina, kehadiran, catatan, operasi) {
     return { bil, namepemohon, mykad, jantina, kehadiran, catatan, operasi };
@@ -29,7 +30,15 @@ const rows = [
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function AdminAttendance() {
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
 
+    const handleBack = () => {
+        router.push("/PreMarriageCourse/AdminPaymentProof");
+    };
+
+    const handleNext = () => {
+        router.push("/PreMarriageCourse/AdminApproval");
+    };
     return (
         <Stack spacing={2}>
 
@@ -120,10 +129,10 @@ export default function AdminAttendance() {
                         </Table>
                     </TableContainer>
                     <br /><br />
-                    <Box align="center">
-                        <Button variant="contained">Simpan</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button variant="contained">Kembali</Button>
-                    </Box>
+                    <Box sx={{ minWidth: 500 }} align="center">
+                    <Button variant="contained" onClick={handleBack}>Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Button variant="contained" onClick={handleNext}>Seterusnya</Button>
+                </Box>
                     <br /><br />
                 </Container>
 

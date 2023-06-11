@@ -24,6 +24,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { useState } from 'react';
 import dayjs from "dayjs";
 
+import { useRouter } from 'next/router';
 
 function createData(bil, tempat, alamat, paid, daerah, yurankursus, kapasiti, tarikhmula, tarikhtamat, masamula, masatamat, pengawaicontact, telefon, catatan, publish, operasi) {
     return { bil, tempat, alamat, paid, daerah, yurankursus, kapasiti, tarikhmula, tarikhtamat, masamula, masatamat, pengawaicontact, telefon, catatan, publish, operasi };
@@ -53,6 +54,16 @@ export default function AdminCourseInfo() {
 
     const handleChangePublish = (event) => {
         setPublish(event.target.value);
+    };
+
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    const handleConfirm = () => {
+        router.push("/PreMarriageCourse/AdminCourseInfo");
+    };
+
+    const handleNext = () => {
+        router.push("/PreMarriageCourse/AdminPaymentProof");
     };
 
     return (
@@ -240,7 +251,7 @@ export default function AdminCourseInfo() {
 
                 </Box>
                 <Box align="center">
-                    <Button variant="contained" type="submit">Simpan</Button>
+                    <Button variant="contained" type="submit" onClick={handleConfirm}>Simpan</Button>
                 </Box>
 
                 <br />
@@ -301,7 +312,7 @@ export default function AdminCourseInfo() {
                 </TableContainer>
                 <br /><br />
                 <Box sx={{ minWidth: 500, ml: 106 }}>
-                    <Button variant="contained">Kembali</Button>
+                <Button variant="contained" onClick={handleNext}>Seterusnya</Button>
                 </Box>
                 <br /><br />
             </Container>
