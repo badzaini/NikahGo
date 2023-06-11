@@ -18,3 +18,22 @@ export async function loginUser({ email }) {
 
     return res;
 }
+
+export async function getAll() {
+    const res = await apiRequest({
+        path: `/users/all`,
+        method: "GET",
+    })
+
+    return res;
+}
+
+export async function updateProfile({ email, profileData }) {
+    const res = await apiRequest({
+        path: `/users/${email}/profile`,
+        method: "PUT",
+        body: profileData,
+    });
+
+    return res;
+}

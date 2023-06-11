@@ -54,6 +54,34 @@ const login = asyncHandler(async (req, res) => {
     res.status(200).json({ user });
 });
 
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find();
 
-module.exports = { register, login };
+    if (users) {
+        res.status(200).json(users);
+    } else {
+        res.status(404);
+        throw new Error("No users found");
+    }
+});
+
+const updateProfile = asyncHandler(async (req, res) => {
+    const ic = req.params.ic;
+    const profileData = req.body;
+
+    try {
+        const users = await User.findOneAndUpdate(ic, profileData, { new: true });
+
+        if (users) {
+            res.status(200).json(users);
+        } else {
+            res.status(404);
+            throw new Error("User not found");
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+module.exports = { register, login, getAllUsers, updateProfile };
 

@@ -12,11 +12,56 @@ import {
   Checkbox,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  FormControl
 } from "@mui/material";
+import { updateProfile } from "../api/user";
+import dayjs from "dayjs";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function Profile() {
+  const router = useRouter();
+  const { email } = router.query;
 
+  const [formData, setFormData] = useState({
+    name: "",
+    ic: "",
+    phone: "",
+    gender: "",
+    birth: "",
+    nationality: "",
+    citizen: "",
+    address: "",
+    education: "",
+    employSector: "",
+    occupation: "",
+    employAddress: "",
+    income: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await updateProfile({ email, profileData: formData });
+      // Handle the response and any necessary actions
+      console.log(response);
+    } catch (error) {
+      // Handle any errors
+      console.error(error);
+    }
+
+  };
 
   return (
     <Container maxWidth="xs">
@@ -34,16 +79,18 @@ export default function Profile() {
         <Typography component="h1" variant="h5">
           Profile
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 3 }}>
+        <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
                 required
                 fullWidth
                 id="name"
-                label="Name"
+                label="Nama"
                 name="name"
                 autoComplete="name"
+                value={formData.name}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
@@ -51,9 +98,11 @@ export default function Profile() {
                 required
                 fullWidth
                 id="ic"
-                label="IC "
+                label="IC"
                 name="ic"
                 autoComplete="ic"
+                value={formData.ic}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
@@ -61,119 +110,165 @@ export default function Profile() {
                 required
                 fullWidth
                 id="phone"
-                label="Phone Number "
+                label="No. Telefon"
                 name="phone"
                 autoComplete="phone"
+                value={formData.phone}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="gender"
-                label="Gender "
-                name="gender"
-                autoComplete="gender"
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Jantina*</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={formData.gender}
+                  label="Jantina"
+                  name="gender"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={""}>None</MenuItem>
+                  <MenuItem value={"Lelaki"}>Lelaki</MenuItem>
+                  <MenuItem value={"Perempuan"}>Perempuan</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="date"
-                label="Date Of Birth "
-                name="date"
-                autoComplete="date"
-              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <FormControl>
+                  <DatePicker
+                    label={
+                      <Grid sx={{ display: 'flex' }}>
+                        Tarikh Lahir
+                        <Typography>*</Typography>
+                      </Grid>
+                    }
+                    name="birth"
+                    value={formData.birth}
+                    onChange={(newDate) =>
+                      handleChange({
+                        target: {
+                          name: "birth",
+                          value: newDate,
+                        },
+                      })
+                    }
+                  />
+                </FormControl>
+              </LocalizationProvider>
             </Grid>
             <Grid item xs={6}>
               <TextField
                 required
                 fullWidth
                 id="nationality"
-                label="Nationality "
+                label="Bangsa "
                 name="nationality"
                 autoComplete="nationalty"
+                value={formData.nationality}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="citizen"
-                label="Citizenship"
-                name="citizen"
-                autoComplete="citizen"
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Warganegara*</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="citizen"
+                  value={formData.citizen}
+                  label="Warganegara"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={""}>None</MenuItem>
+                  <MenuItem value={"Warganegara"}>Warganegara</MenuItem>
+                  <MenuItem value={"Bukan Warganegara"}>Bukan Warganegara</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
               <TextField
                 required
                 fullWidth
                 id="address"
-                label="Address "
+                label="Alamat Rumah"
                 name="address"
                 autoComplete="address"
+                value={formData.address}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="edu"
-                label="Education Level "
-                name="edu"
-                autoComplete="edu"
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Peringkat Belajar*</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="education"
+                  value={formData.education}
+                  label="Peringkat Belajar"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={""}>None</MenuItem>
+                  <MenuItem value={"Diploma"}>Diploma</MenuItem>
+                  <MenuItem value={"Degree"}>Degree</MenuItem>
+                  <MenuItem value={"Master"}>Master</MenuItem>
+                  <MenuItem value={"Phd"}>Phd</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="EmploymentSector"
-                label="Employment Sector "
-                name="EmploymentSector"
-                autoComplete="EmploymentSector"
-              />
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Sektor Pekerjaan*</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="employSector"
+                  value={formData.employSector}
+                  label="Sektor Pekerjaan"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={""}>None</MenuItem>
+                  <MenuItem value={"Kerajaan"}>Kerajaan</MenuItem>
+                  <MenuItem value={"Swasta"}>Swasta</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
               <TextField
                 required
                 fullWidth
                 id="OccupationName"
-                label=" Occupation Name "
-                name="OccupationName"
+                label="Nama Pekerjaan"
+                name="occupation"
                 autoComplete="OccupationName"
+                value={formData.occupation}
+                onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <TextField
                 required
                 fullWidth
                 id="EmploymentAddress"
                 label=" Employment Address "
-                name="EmploymentAddress"
+                name="employAddress"
                 autoComplete="EmploymentAddress"
+                value={formData.employAddress}
+                onChange={handleChange}
               />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                id="WorkPlace_PhoneNum"
-                label="Work Place Phone Number "
-                name="WorkPlace_PhoneNum"
-                autoComplete="WorkPlace_PhoneNum"
-              />
-            </Grid>
+            </Grid> */}
             <Grid item xs={6}>
               <TextField
                 required
                 fullWidth
                 id="Income"
-                label="Income  "
-                name="Income"
+                label="Pendapatan"
+                name="income"
                 autoComplete="Income"
+                value={formData.income}
+                onChange={handleChange}
               />
             </Grid>
 
