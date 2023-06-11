@@ -20,7 +20,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
-import SearchIcon from '@mui/icons-material/Search';
+import { useRouter } from 'next/router';
 
 function createData(bil, namepeserta, mykad, jantina, nosijil, operasi) {
     return { bil, namepeserta, mykad, jantina, nosijil, operasi };
@@ -30,6 +30,7 @@ const rows = [
     createData('', '', '', '', '', ''),
 ];
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
 
 export default function AdminCetakSlipLaporan() {
     const [tahun, setTahun] = React.useState('');
@@ -41,6 +42,20 @@ export default function AdminCetakSlipLaporan() {
 
     const handleChangeSirikursus = (event) => {
         setSirikursus(event.target.value);
+    };
+
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    const handleConfirm = () => {
+        router.push("/PreMarriageCourse/AdminCetakSlipLaporan");
+    };
+
+    const handleBack = () => {
+        router.push("/PreMarriageCourse/AdminPesertaListLaporan");
+    };
+
+    const handleNext = () => {
+        router.push("/PreMarriageCourse/AdminCourseInfo");
     };
     return (
         <Stack spacing={2}>
@@ -158,8 +173,9 @@ export default function AdminCetakSlipLaporan() {
                     </TableContainer>
                     <br /><br />
                     <Box align="center">
-                        <Button variant="contained">Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button variant="contained">Cetak Sijil</Button>
+                        <Button variant="contained" onClick={handleBack}>Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button variant="contained" onClick={handleConfirm}>Cetak Sijil</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button variant="contained" onClick={handleNext}>Seterusnya</Button>
                     </Box>
                     <br /><br />
                 </Container>

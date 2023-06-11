@@ -7,8 +7,19 @@ import {
     Stack,
     Paper
 } from '@mui/material'
+import { useRouter } from 'next/router';
 
 export default function CourseRegistration() {
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    const handleBack = () => {
+        router.push("/PreMarriageCourse/SlipButton");
+    };
+
+    const handleConfirmPrint = () => {
+        router.push("/PreMarriageCourse/PrintRegistrationSlip");
+    };
+
     return (
         <Stack spacing={2}>
             <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }} component={Paper}>
@@ -37,8 +48,8 @@ export default function CourseRegistration() {
                     </Typography>
 
                     <Box align="center">
-                        <Button variant="contained">Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button variant="contained">Cetak Slip</Button>
+                        <Button variant="contained" onClick={handleBack}>Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button variant="contained" onClick={handleConfirmPrint}>Cetak Slip</Button>
                     </Box>
                     <br /><br />
                 </Container>

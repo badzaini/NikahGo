@@ -16,17 +16,90 @@ import {
     IconButton
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
-function createData(bil, tarikhpemohon, nopemohon, namapemohon, mykad, sirikursus, status, resit, operasi) {
-    return { bil, tarikhpemohon, nopemohon, namapemohon, mykad, sirikursus, status, resit, operasi };
-}
-
-const rows = [
-    createData('1.', '20/01/2023', 'TLOH1P/2023-01651', 'SITI KHAIRIAH BINTI ABDULLAH', '800712111112', 'TLOH/0005/2023', '', '', ''),
-];
+import { useRouter } from 'next/router';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import PageviewIcon from '@mui/icons-material/Pageview';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function AdminPaymentProof() {
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
 
+    const handleConfirmViewPP = () => {
+        router.push("/MarriageApplication/AdminProofPayment");
+    };
+
+    const handleConfirmApprovePP = () => {
+        router.push("");
+    };
+
+    const handleConfirmDisapprovePP = () => {
+        router.push("");
+    };
+
+    const handleViewRegForm = () => {
+        router.push("/PreMarriageCourse/AdminMarraigeAppForm");
+    };
+
+    const handleEditRegForm = () => {
+        router.push("/PreMarriageCourse/AdminMarraigeAppForm");
+    };
+
+    const handleDeleteAppForm = () => {
+        router.push("");
+    };
+
+    const handleBack = () => {
+        router.push("/PreMarriageCourse/AdminCourseInfo");
+    };
+
+    const handleNext = () => {
+        router.push("/PreMarriageCourse/AdminAttendance");
+    };
+
+    function createData(bil, tarikhpemohon, nopemohon, namapemohon, mykad, sirikursus, status, resit, operasi) {
+        return {
+            bil,
+            tarikhpemohon,
+            nopemohon,
+            namapemohon,
+            mykad,
+            sirikursus,
+            status,
+            resit: resit ? (
+                <>
+                    <IconButton onClick={handleConfirmViewPP} type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
+                        <ReceiptLongIcon />
+                    </IconButton>
+                    <IconButton onClick={handleConfirmApprovePP} type="button" sx={{ p: '10px', color: 'green' }} aria-label="approve">
+                        <CheckCircleIcon />
+                    </IconButton>
+                    <IconButton onClick={handleConfirmDisapprovePP} type="button" sx={{ p: '10px', color: 'red' }} aria-label="disapprove">
+                        <CancelIcon />
+                    </IconButton>
+                </>
+            ) : null,
+            operasi: operasi ? (
+                <>
+                    <IconButton onClick={handleViewRegForm} type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
+                        <PageviewIcon />
+                    </IconButton>
+                    <IconButton onClick={handleEditRegForm} type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={handleDeleteAppForm} type="button" sx={{ p: '10px', color: 'black' }} aria-label="disapprove">
+                        <DeleteIcon />
+                    </IconButton>
+                </>
+            ) : null,
+        };
+    }
+
+    const rows = [
+        createData('1.', '20/01/2023', 'TLOH1P/2023-01651', 'SITI KHAIRIAH BINTI ABDULLAH', '800712111112', 'TLOH/0005/2023', '', true, true),
+    ];
     return (
         <Stack spacing={2}>
             <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }} component={Paper}>
@@ -60,7 +133,7 @@ export default function AdminPaymentProof() {
                         </IconButton>
                     </Paper>
                 </Box>
-                
+
                 <TableContainer sx={{ minWidth: 500 }} component={Paper}>
                     <Table sx={{ minWidth: 400 }} aria-label="simple table">
                         <TableHead>
@@ -91,8 +164,8 @@ export default function AdminPaymentProof() {
                                     <TableCell align="center">{row.mykad}</TableCell>
                                     <TableCell align="center">{row.sirikursus}</TableCell>
                                     <TableCell align="center">{row.status}</TableCell>
-                                    <TableCell align="center">{row.resit}</TableCell>
-                                    <TableCell align="center">{row.operasi}</TableCell>
+                                    <TableCell align="center" sx={{ width: '20%' }}>{row.resit}</TableCell>
+                                    <TableCell align="center" sx={{ width: '20%' }}>{row.operasi}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -100,7 +173,9 @@ export default function AdminPaymentProof() {
                 </TableContainer>
                 <br /><br />
                 <Box sx={{ minWidth: 500 }} align="center">
-                    <Button variant="contained">Kembali</Button>
+                    <Button variant="contained" onClick={handleBack}>Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Button variant="contained" onClick={handleNext}>Seterusnya</Button>
+
                 </Box>
                 <br /><br />
 
