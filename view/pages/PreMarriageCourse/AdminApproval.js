@@ -17,6 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import SearchIcon from '@mui/icons-material/Search';
+import { useRouter } from 'next/router';
 
 function createData(bil, namepemohon, mykad, jantina, kehadiran, operasi) {
     return { bil, namepemohon, mykad, jantina, kehadiran, operasi };
@@ -29,7 +30,15 @@ const rows = [
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function AdminApproval() {
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
 
+    const handleBack = () => {
+        router.push("/PreMarriageCourse/AdminAttendance");
+    };
+
+    const handleNext = () => {
+        router.push("/PreMarriageCourse/AdminKPPILaporan");
+    };
     return (
         <Stack spacing={2}>
 
@@ -38,7 +47,7 @@ export default function AdminApproval() {
                 <Box>
                     <br />
                     <Typography variant="h4">
-                        <b>Maklumat Peserta - Kehadiran</b>
+                        <b>Maklumat Peserta - Kelulusan</b>
                     </Typography>
 
                     <Box sx={{ marginTop: 2, bgcolor: '#49516F', color: 'white', width: 500, height: 30, borderRadius: 1 }}>
@@ -98,9 +107,9 @@ export default function AdminApproval() {
                         </Table>
                     </TableContainer>
                     <br /><br />
-                    <Box align="center">
-                        <Button variant="contained">Simpan</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button variant="contained">Kembali</Button>
+                    <Box sx={{ minWidth: 500 }} align="center">
+                        <Button variant="contained" onClick={handleBack}>Kembali</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button variant="contained" onClick={handleNext}>Seterusnya</Button>
                     </Box>
                     <br /><br />
                 </Container>

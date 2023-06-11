@@ -1,29 +1,24 @@
-import * as React from "react";
+import React from 'react'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { styled, alpha } from '@mui/material/styles';
 import {
-  Button,
-  Typography,
-  Container,
-  Box,
-  Stack,
   TableContainer,
-  TableHead,
-  TableCell,
-  TableRow,
-  TableBody,
   Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
   Paper,
-  InputBase,
+  Container,
   IconButton,
-  Grid 
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
-import PageviewIcon from "@mui/icons-material/Pageview";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useRouter } from "next/router";
+  InputBase,
+  Typography,
+  Box,
+  Button,
+  Divider
+} from '@mui/material';
+import { getAll } from '../api/user';
 
 export default function AdminSenaraiPemohon() {
   const router = useRouter(); // Initialize the router variable using the useRouter hook
@@ -148,114 +143,61 @@ export default function AdminSenaraiPemohon() {
     createData("3.", "", "", "", "DTERIMA", true, true),
   ];
 
+export default function Request() {
+  const [users, setUsers] = useState([]);
+  const router = useRouter();
+
+  const handleDaftar = () => {
+    router.push("/MarriageRegistration/Registration");
+  }
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getAll();
+        setUsers(response);
+      } catch (error) {
+        console.log('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
-    <Stack spacing={2}>
-      
-      <Container
-        sx={{
-          display: "",
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
-          mt: 10,
-          ml: 40,
-        }}
-        component={Paper}
-      >
-        <br />
-        <br />
-
-        <Box sx={{ ml: 1, width: "100%" }}>
-          <Typography
-            variant="h4"
-            gutterBottom
-            sx={{ borderLeft: "13px solid #1E89A0" }}
-          >
-            {" "}
-            &nbsp; Profil - Maklumat Pengguna
-          </Typography>
-        </Box>
-
-        {/*this is the name pemohon for searching function*/}
-        <Box sx={{ py: 3, display: "flex", justifyContent: "right" }}>
-          <Paper
-            component="form"
-            sx={{
-              p: "2px 4px",
-              display: "flex",
-              alignItems: "center",
-              width: 300,
-            }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Pilih Carian"
-              inputProps={{ "aria-label": "search" }}
-            />
-            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-              <SearchIcon />
-            </IconButton>
-          </Paper>
-        </Box>
-
-        <TableContainer sx={{ minWidth: 500 }} component={Paper}>
-          <Table sx={{ minWidth: 400 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">
-                  <b>Bil.</b>
+    <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", mt: 20, width: 750 }}>
+      <Box>
+        <Typography variant="h4" gutterBottom sx={{ borderLeft: "13px solid black" }}>Senarai Pengguna</Typography>
+      </Box>
+      <TableContainer component={Paper} sx={{ maxWidth: 750, mt: 3 }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ width: 50 }}>Bil.</TableCell>
+              <TableCell>Username</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user, index) => (
+              <TableRow key={index}>
+                <TableCell component="th" scope="row">
+                  {index + 1}
                 </TableCell>
-                <TableCell align="center">
-                  <b>No.KP/Nama Pemohon</b>
-                </TableCell>
-                <TableCell align="center">
-                  <b>No.KP/Nama Pasangan</b>
-                </TableCell>
-                <TableCell align="center">
-                  <b>Tarikh Mohon</b>
-                </TableCell>
-                <TableCell align="center">
-                  <b>Status</b>
-                </TableCell>
-                <TableCell align="center">
-                  <b>Operasi</b>
-                </TableCell>
+                <TableCell>{user.name}</TableCell>
+                {/* Add additional table cells for other user properties */}
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.bil}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.bil}
-                  </TableCell>
-                  <TableCell align="center" sx={{ width: "25%" }}>
-                    {row.icnamapemohon}
-                  </TableCell>
-                  <TableCell align="center" sx={{ width: "25%" }}>
-                    {" "}
-                    {row.icnamapasangan}
-                  </TableCell>
-                  <TableCell align="center">
-                    {row.tarikhmohon}
-                    </TableCell>
-                  <TableCell align="center">
-                    {row.status}
-                    </TableCell>
-                  <TableCell align="center" sx={{ width: "22%" }}>
-                    {row.operasi}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <br />
-        <br />
-      </Container>
-    </Stack>
-  );
+            ))}
+          </TableBody>
+          {/* <TableBody>
+            <TableRow>
+              <TableCell component="th" scope="row">
+              </TableCell>
+              <TableCell align="right"></TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </TableBody> */}
+        </Table>
+      </TableContainer>
+    </Container>
+  )
 }

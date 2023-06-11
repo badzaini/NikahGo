@@ -8,12 +8,27 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from "next/router";
 import Sidebar from "./sidebar";
+import { signOut } from "firebase/auth";
+import { auth } from "../fbConfig";
 
 const Navbar = () => {
     const router = useRouter();
     const pathname = router.pathname;
 
-    console.log(pathname);
+    const handleLogout = () => {
+        signOut(auth)
+            .then(() => {
+                // Logout successful
+                console.log("User logged out");
+                router.push("/Registration/Login");
+            })
+            .catch((error) => {
+                // Handle logout error
+                console.error("Error logging out:", error);
+            });
+    };
+
+    // console.log(pathname);
     return (
         <Box>
             <AppBar position="fixed" sx={{ zIndex: 2000 }}>
@@ -30,6 +45,9 @@ const Navbar = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         NikahGo
                     </Typography>
+                    <Button onClick={handleLogout} color="inherit">
+                        Logout
+                    </Button>
                     {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
             </AppBar>

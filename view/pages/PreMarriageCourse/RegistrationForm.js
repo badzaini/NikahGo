@@ -21,6 +21,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
+import { useRouter } from 'next/router';
 
 export default function RegistrationForm() {
     const [negeri, setNegeri] = React.useState('');
@@ -57,6 +58,15 @@ export default function RegistrationForm() {
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
+    const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    const handleBack = () => {
+        router.push("/PreMarriageCourse/ChooseCourse");
+    };
+
+    const handleConfirm = () => {
+        router.push("/PreMarriageCourse/SlipButton");
+    };
     return (
         <Stack spacing={2}>
             <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40, mb:10}} component={Paper}>
@@ -279,8 +289,8 @@ export default function RegistrationForm() {
                 <br /><br />
 
                 <Box align="center">
-                    <Button variant="contained">Kembali</Button>&nbsp;&nbsp;
-                    <Button variant="contained">Hantar</Button>
+                    <Button variant="contained" onClick={handleBack}>Kembali</Button>&nbsp;&nbsp;
+                    <Button variant="contained" onClick={handleConfirm}>Hantar</Button>
                 </Box>
                 <br /><br />
             </Container>

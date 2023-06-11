@@ -47,7 +47,7 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        <Link href="/PreMarriageCourse/CourseRegistration">
+                        <Link href="/PreMarriageCourse/CourseTerm">
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>

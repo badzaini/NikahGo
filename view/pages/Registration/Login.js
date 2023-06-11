@@ -98,9 +98,17 @@ export default function Login() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2, backgroundColor: " #F3486A" }}
+            sx={{ mt: 3, mb: 2, bgcolor: "#F3486A" }}
           >
-            Masuk
+            Log Masuk
+          </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2, backgroundColor: "#1E89A0" }}
+          >
+            Log Masuk Kakitangan
           </Button>
           <Button
             type="submit"
