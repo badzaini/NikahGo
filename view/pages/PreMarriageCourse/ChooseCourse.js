@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import {
     Button,
     Typography,
@@ -18,55 +19,43 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { useRouter } from 'next/router';
 import PageviewIcon from '@mui/icons-material/Pageview';
-
+import { getAllCourses } from '../api/course';
 
 
 
 export default function ChooseCourse() {
+    const [courses, setCourses] = useState([]);
     const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await getAllCourses();
+                setCourses(response);
+                console.log(response);
+            } catch (error) {
+                console.log('Error fetching courses:', error);
+            }
+        };
+
+        fetchCourses();
+    }, []);
 
     const handleBack = () => {
         router.push("/PreMarriageCourse/CourseTerm");
     };
 
-    const handleViewCourseDetails = () => {
-        router.push("/PreMarriageCourse/CourseDetails");
+    const handleViewCourseDetails = (courseId) => {
+        router.push(`/PreMarriageCourse/CourseDetails?id=${courseId}`);
     };
 
-    const handleConfirm = () => {
-        router.push("/PreMarriageCourse/RegistrationForm");
+    const handleConfirm = (courseId) => {
+        router.push(`/PreMarriageCourse/RegistrationForm?id=${courseId}`);
     };
-
-    function createData(bil, anjuran, tempat, tarikh, kapasiti, kekosongan, paparlanjut, daftarpenyertaan) {
-        return {
-            bil,
-            anjuran,
-            tempat,
-            tarikh,
-            kapasiti,
-            kekosongan,
-            paparlanjut: paparlanjut ? (
-                <>
-                    <IconButton onClick={handleViewCourseDetails} type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
-                        <PageviewIcon />
-                    </IconButton>
-                </>
-            ) : null,
-            daftarpenyertaan: daftarpenyertaan ? (
-                <>
-                    <Button variant="contained" onClick={handleConfirm} >Daftar</Button>
-                </>
-            ) : null,
-        };
-    }
-
-    const rows = [
-        createData('1.', 'Pejabat Agama Islam Temerloh', 'Dewan Kuliah Mashas Temerloh', '28/01/2023 - 29/01/2023', '84', '5', true, true),
-    ];
 
     return (
         <Stack spacing={2}>
-            <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }} component={Paper}>
+            <Container sx={{ display: "", justifyContent: "center", width: "60%", height: "100%", mt: 15, mr: 30 }} component={Paper}>
                 <br /><br />
                 <Typography variant="h4"><b>Pendaftaran Kursus Pra Perkahwinan</b></Typography>
                 <br /><br />
@@ -77,45 +66,11 @@ export default function ChooseCourse() {
                 </Box>
                 <br /><br />
 
-                <Box align="center">
+                {/* <Box align="center">
                     <Typography variant="p">
                         <b>Pilih Anjuran:</b>
                     </Typography>
-                </Box>
-
-                <Box sx={{ py: 3, display: "flex", justifyContent: "center" }}>
-                    <Paper
-                        component="form"
-                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300 }}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1 }}
-                            placeholder="Pilih Carian"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
-                    </Paper>
-                </Box>
-
-                {/*this is the anjuran list for searching function*/}
-                {/* Jabatan Agama Islam Negeri Pahang
-                Pejabat Agama Islam Bentong
-                Pejabat Agama Islam Bera
-                Pejabat Agama Islam Cameron Highlands
-                Pejabat Agama Islam Chenor
-                Pejabat Agama Islam Jengka
-                Pejabat Agama Islam Jerantut
-                Pejabat Agama Islam Kuantan 
-                Pejabat Agama Islam Lipis
-                Pejabat Agama Islam Maran
-                Pejabat Agama Islam Muadzam Shah
-                Pejabat Agama Islam Pekan
-                Pejabat Agama Islam Raub
-                Pejabat Agama Islam Rompin
-                Pejabat Agama Islam Temerloh       
-                */}
+                </Box> */}
 
                 <Container>
                     <TableContainer component={Paper}>
@@ -123,11 +78,11 @@ export default function ChooseCourse() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center"><b>Bil.</b></TableCell>
-                                    <TableCell align="center"><b>Anjuran</b></TableCell>
+                                    {/* <TableCell align="center"><b>Anjuran</b></TableCell> */}
                                     <TableCell align="center"><b>Tempat</b></TableCell>
                                     <TableCell align="center"><b>Tarikh</b></TableCell>
                                     <TableCell align="center"><b>Kapasiti Peserta</b></TableCell>
-                                    <TableCell align="center"><b>Kekosongan</b></TableCell>
+                                    {/* <TableCell align="center"><b>Kekosongan</b></TableCell> */}
                                     <TableCell align="center"><b>Papar Lanjut</b></TableCell>
                                     <TableCell align="center"><b>Daftar Penyertaan</b></TableCell>
                                 </TableRow>
@@ -135,7 +90,24 @@ export default function ChooseCourse() {
                                 {/*Dalam Daftar Penyertaan kena ada satu button utk go to RegistrationForm.js*/}
                             </TableHead>
                             <TableBody>
-                                {rows.map((row) => (
+                                {courses.map((d, i) => (
+                                    <TableRow
+                                        key={i}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {i + 1}
+                                        </TableCell>
+                                        <TableCell align="center">{d.place}</TableCell>
+                                        <TableCell align="center">{d.dateStart}</TableCell>
+                                        <TableCell align="center">{d.capacity}</TableCell>
+                                        <TableCell align="center"> <IconButton onClick={() => handleViewCourseDetails(d._id)} type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
+                                            <PageviewIcon />
+                                        </IconButton></TableCell>
+                                        <TableCell align="center"><Button variant="contained" onClick={() => handleConfirm(d._id)} >Daftar</Button></TableCell>
+                                    </TableRow>
+                                ))}
+                                {/* {rows.map((row) => (
                                     <TableRow
                                         key={row.name}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -151,7 +123,7 @@ export default function ChooseCourse() {
                                         <TableCell align="center" sx={{ width: '20%' }}>{row.paparlanjut}</TableCell>
                                         <TableCell align="center">{row.daftarpenyertaan}</TableCell>
                                     </TableRow>
-                                ))}
+                                ))} */}
                             </TableBody>
                         </Table>
                     </TableContainer>

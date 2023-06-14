@@ -47,7 +47,17 @@ const userSchema = new mongoose.Schema({
     },
     income: {
         type: Number
+    },
+    age: {
+        type: Number
+    },
+    marriageStatus: {
+        type: String
+    },
+    partnerIc: {
+        type: String
     }
+
 })
 
 module.exports = mongoose.model('User', userSchema)

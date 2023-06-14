@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { useRouter } from 'next/router';
 import {
     Box,
@@ -24,13 +24,129 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { getUserByIC } from "../api/user";
+import { useSelector } from "react-redux";
+import { marriageDetails } from "../api/marriage";
 
 export default function MarriageForm() {
-    const [date, setDate] = useState(dayjs());
-    const [time, setTime] = useState(dayjs());
+    const ic = useSelector((state) => state.user.ic);
+    const email = useSelector((state) => state.user.email);
+    const gender = useSelector((state) => state.user.gender);
+    const name = useSelector((state) => state.user.name);
+    const address = useSelector((state) => state.user.address);
+    const phone = useSelector((state) => state.user.phone);
+    const education = useSelector((state) => state.user.education);
+    const income = useSelector((state) => state.user.income);
+    const nationality = useSelector((state) => state.user.nationality);
+    const citizenship = useSelector((state) => state.user.citizenship);
+    const birth = useSelector((state) => state.user.birth);
+    const occupation = useSelector((state) => state.user.occupation);
+    const employSector = useSelector((state) => state.user.employSector);
+    const marriageStatus = useSelector((state) => state.user.marriageStatus);
+    const age = useSelector((state) => state.user.age);
+    const IC = useSelector((state) => state.user.partnerIc);
+
+    //Pemohon
+    const [userIc, setUserIc] = useState(ic);
+    const [userName, setUserName] = useState(name);
+    const [userGender, setUserGender] = useState(gender);
+    const [userEmail, setUserEmail] = useState(email);
+    const [userAddress, setUserAddress] = useState(address);
+    const [userPhone, setUserPhone] = useState(phone);
+    const [userEducation, setUserEducation] = useState(education);
+    const [userIncome, setUserIncome] = useState(income);
+    const [userNationality, setUserNationality] = useState(nationality);
+    const [userCitizenship, setUserCitizenship] = useState(citizenship);
+    const [userOccupation, setUserOccupation] = useState(occupation);
+    const [userEmploySector, setUserEmploySector] = useState(employSector);
+    const [userBirth, setUserBirth] = useState(dayjs(birth));
+    const [userMarriageStatus, setUserMarriageStatus] = useState(marriageStatus);
+    const [userAge, setUserAge] = useState(age);
+
+    //Pasangan
+    const [userPartnerIc, setUserPartnerIc] = useState();
+    const [userPartnerName, setUserPartnerName] = useState();
+    const [userPartnerGender, setUserPartnerGender] = useState();
+    const [userPartnerEmail, setUserPartnerEmail] = useState();
+    const [userPartnerAddress, setUserPartnerAddress] = useState();
+    const [userPartnerPhone, setUserPartnerPhone] = useState();
+    const [userPartnerEducation, setUserPartnerEducation] = useState();
+    const [userPartnerIncome, setUserPartnerIncome] = useState();
+    const [userPartnerNationality, setUserPartnerNationality] = useState();
+    const [userPartnerCitizenship, setUserPartnerCitizenship] = useState();
+    const [userPartnerOccupation, setUserPartnerOccupation] = useState();
+    const [userPartnerEmploySector, setUserPartnerEmploySector] = useState();
+    // const [userPartnerBirth, setUserPartnerBirth] = useState(dayjs().toDate());
+    const [userPartnerMarriageStatus, setUserPartnerMarriageStatus] = useState();
+    const [userPartnerAge, setUserPartnerAge] = useState();
+    const [details, setDetails] = useState([]);
+    const router = useRouter();
+
+    async function getPartner() {
+        console.log("masuk");
+        try {
+            const partner = await getUserByIC({ IC });
+
+            if (partner) {
+                setUserPartnerIc(partner.ic);
+                setUserPartnerName(partner.name);
+                setUserPartnerGender(partner.gender);
+                setUserPartnerEmail(partner.email);
+                setUserPartnerAddress(partner.address);
+                setUserPartnerPhone(partner.phone);
+                setUserPartnerEducation(partner.education);
+                setUserPartnerIncome(partner.income);
+                setUserPartnerNationality(partner.nationality);
+                setUserPartnerCitizenship(partner.citizenship);
+                // setUserPartnerBirth(partner.birth);
+                setUserPartnerMarriageStatus(partner.marriageStatus);
+                setUserPartnerOccupation(partner.occupation);
+                setUserPartnerAge(partner.age);
+                console.log(partner.ic);
+
+                console.log("jadi oi");
+                console.log(partner);
+            } else {
+                console.log("error")
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        console.log("MAsuk anjir")
+        getPartner();
+    });
+
+    useEffect(() => {
+        // const ic = router.query.id;
+        // console.log(router.query.id);
+        const fetchMarriageDetails = async () => {
+            const ic = router.query.id;
+            console.log(router.query.id);
+            console.log(ic);
+            if (ic) {
+                try {
+                    const response = await marriageDetails({ ic });
+                    console.log(response);
+                    setDetails(response);
+                } catch (error) {
+                    console.log('Error fetching course details:', error);
+                    console.log(error.message);
+                    console.log(error.stack);
+                }
+            }
+        };
+
+        fetchMarriageDetails();
+    });
+
+
+
     const [activeStep, setActiveStep] = useState(1);
     const steps = getSteps();
-    const router = useRouter();
 
     function getSteps() {
         return ["Maklumat Suami", "Maklumat Isteri", "Maklumat Perkahwinan"];
@@ -58,6 +174,8 @@ export default function MarriageForm() {
                                             label="Nama"
                                             name="name"
                                             autoComplete="name"
+                                            value={userName}
+                                            onChange={(e) => setUserName(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -68,6 +186,8 @@ export default function MarriageForm() {
                                             label="IC "
                                             name="ic"
                                             autoComplete="ic"
+                                            value={userIc}
+                                            onChange={(e) => setUserIc(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -75,8 +195,8 @@ export default function MarriageForm() {
                                             <FormControl>
                                                 <DatePicker
                                                     label={<Grid sx={{ display: 'flex' }}>Tarikh Lahir<Typography sx={{ color: 'red' }}>*</Typography></Grid>}
-                                                    value={date}
-                                                    onChange={(newDate) => setDate(newDate)}
+                                                    value={userBirth}
+                                                    onChange={(newDate) => setUserBirth(newDate)}
                                                 />
                                             </FormControl>
                                         </LocalizationProvider>
@@ -90,6 +210,8 @@ export default function MarriageForm() {
                                             name="age"
                                             autoComplete="age"
                                             type="number"
+                                            value={userAge}
+                                            onChange={(e) => setUserAge(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -100,6 +222,8 @@ export default function MarriageForm() {
                                             label="Bangsa"
                                             name="nationality"
                                             autoComplete="nationalty"
+                                            value={userNationality}
+                                            onChange={(e) => setUserNationality(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -108,12 +232,12 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userCitizenship}
                                                 label="Warganegara"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserCitizenship(e.target.value)}
                                             >
-                                                <MenuItem>Warganegara</MenuItem>
-                                                <MenuItem>Bukan Warganegara</MenuItem>
+                                                <MenuItem value={"Warganegara"}>Warganegara</MenuItem>
+                                                <MenuItem value={"Bukan Warganegara"}>Bukan Warganegara</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -123,14 +247,14 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userEducation}
                                                 label="Taraf Pendidikan"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserEducation(e.target.value)}
                                             >
-                                                <MenuItem>Ijazah</MenuItem>
-                                                <MenuItem>Diploma</MenuItem>
-                                                <MenuItem>Master</MenuItem>
-                                                <MenuItem>Phd</MenuItem>
+                                                <MenuItem value={"Ijazah"}>Ijazah</MenuItem>
+                                                <MenuItem value={"Diploma"}>Diploma</MenuItem>
+                                                <MenuItem value={"Master"}>Master</MenuItem>
+                                                <MenuItem value={"Phd"}>Phd</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -140,12 +264,12 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userEmploySector}
                                                 label="Sektor Pekerjaan"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserEmploySector(e.target.value)}
                                             >
-                                                <MenuItem>Kerajaan</MenuItem>
-                                                <MenuItem>Swasta</MenuItem>
+                                                <MenuItem value={"Kerajaan"}>Kerajaan</MenuItem>
+                                                <MenuItem value={"Swasta"}>Swasta</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -157,6 +281,8 @@ export default function MarriageForm() {
                                             label="Nama Pekerjaan"
                                             name="OccupationName"
                                             autoComplete="OccupationName"
+                                            value={userOccupation}
+                                            onChange={(e) => setUserOccupation(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -171,6 +297,8 @@ export default function MarriageForm() {
                                                 startAdornment: <InputAdornment position="start">RM</InputAdornment>,
                                             }}
                                             type="number"
+                                            value={userIncome}
+                                            onChange={(e) => setUserIncome(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -183,6 +311,8 @@ export default function MarriageForm() {
                                             autoComplete="address"
                                             multiline
                                             rows={3}
+                                            value={userAddress}
+                                            onChange={(e) => setUserAddress(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -194,6 +324,8 @@ export default function MarriageForm() {
                                             name="phone"
                                             autoComplete="phone"
                                             type="number"
+                                            value={userPhone}
+                                            onChange={(e) => setUserPhone(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -202,12 +334,12 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userMarriageStatus}
                                                 label="Status Perkahwinan"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserMarriageStatus(e.target.value)}
                                             >
-                                                <MenuItem>Bujang</MenuItem>
-                                                <MenuItem>Duda</MenuItem>
+                                                <MenuItem value={"Bujang"}>Bujang</MenuItem>
+                                                <MenuItem value={"Bujang"}>Duda</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -237,6 +369,8 @@ export default function MarriageForm() {
                                             label="Nama"
                                             name="name"
                                             autoComplete="name"
+                                            value={userPartnerName}
+                                            onChange={(e) => setUserPartnerName(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -247,19 +381,21 @@ export default function MarriageForm() {
                                             label="IC "
                                             name="ic"
                                             autoComplete="ic"
+                                            value={userPartnerIc}
+                                            onChange={(e) => setUserPartnerIc(e.target.value)}
                                         />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    {/* <Grid item xs={6}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <FormControl>
                                                 <DatePicker
                                                     label={<Grid sx={{ display: 'flex' }}>Tarikh Lahir<Typography sx={{ color: 'red' }}>*</Typography></Grid>}
-                                                    value={date}
-                                                    onChange={(newDate) => setDate(newDate)}
+                                                    value={userPartnerBirth}
+                                                    onChange={(newDate) => setUserPatnerBirth(newDate)}
                                                 />
                                             </FormControl>
                                         </LocalizationProvider>
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid item xs={6}>
                                         <TextField
                                             required
@@ -269,6 +405,8 @@ export default function MarriageForm() {
                                             name="age"
                                             autoComplete="age"
                                             type="number"
+                                            value={userPartnerAge}
+                                            onChange={(e) => setUserPartnerAge(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -279,6 +417,8 @@ export default function MarriageForm() {
                                             label="Bangsa"
                                             name="nationality"
                                             autoComplete="nationalty"
+                                            value={userPartnerNationality}
+                                            onChange={(e) => setUserPartnerNationality(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -287,12 +427,12 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userPartnerCitizenship}
                                                 label="Warganegara"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserPartnerCitizenship(e.target.value)}
                                             >
-                                                <MenuItem>Warganegara</MenuItem>
-                                                <MenuItem>Bukan Warganegara</MenuItem>
+                                                <MenuItem value={"Warganegara"}>Warganegara</MenuItem>
+                                                <MenuItem value={"Bukan Warganegara"}>Bukan Warganegara</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -302,14 +442,14 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userPartnerEducation}
                                                 label="Taraf Pendidikan"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserPartnerEducation(e.target.value)}
                                             >
-                                                <MenuItem>Ijazah</MenuItem>
-                                                <MenuItem>Diploma</MenuItem>
-                                                <MenuItem>Master</MenuItem>
-                                                <MenuItem>Phd</MenuItem>
+                                                <MenuItem value={"Ijazah"}>Ijazah</MenuItem>
+                                                <MenuItem value={"Diploma"}>Diploma</MenuItem>
+                                                <MenuItem value={"Master"}>Master</MenuItem>
+                                                <MenuItem value={"Phd"}>Phd</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -319,12 +459,12 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userPartnerEmploySector}
                                                 label="Sektor Pekerjaan"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserPartnerEmploySector(e.target.value)}
                                             >
-                                                <MenuItem>Kerajaan</MenuItem>
-                                                <MenuItem>Swasta</MenuItem>
+                                                <MenuItem value={"Kerajaan"}>Kerajaan</MenuItem>
+                                                <MenuItem value={"Swasta"}>Swasta</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -336,6 +476,8 @@ export default function MarriageForm() {
                                             label="Nama Pekerjaan"
                                             name="OccupationName"
                                             autoComplete="OccupationName"
+                                            value={userPartnerOccupation}
+                                            onChange={(e) => setUserPartnerOccupation(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -350,6 +492,8 @@ export default function MarriageForm() {
                                                 startAdornment: <InputAdornment position="start">RM</InputAdornment>,
                                             }}
                                             type="number"
+                                            value={userPartnerIncome}
+                                            onChange={(e) => setUserPartnerIncome(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -362,6 +506,8 @@ export default function MarriageForm() {
                                             autoComplete="address"
                                             multiline
                                             rows={3}
+                                            value={userPartnerAddress}
+                                            onChange={(e) => setUserPartnerAddress(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -373,6 +519,8 @@ export default function MarriageForm() {
                                             name="phone"
                                             autoComplete="phone"
                                             type="number"
+                                            value={userPartnerPhone}
+                                            onChange={(e) => setUserPartnerPhone(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -381,12 +529,12 @@ export default function MarriageForm() {
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                // value={gender || ""}
+                                                value={userPartnerMarriageStatus}
                                                 label="Status Perkahwinan"
-                                            // onChange={(e) => setGender(e.target.value)}
+                                                onChange={(e) => setUserPartnerMarriageStatus(e.target.value)}
                                             >
-                                                <MenuItem>Bujang</MenuItem>
-                                                <MenuItem>Janda</MenuItem>
+                                                <MenuItem value={"Bujang"}>Bujang</MenuItem>
+                                                <MenuItem value={"Janda"}>Janda</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -413,12 +561,12 @@ export default function MarriageForm() {
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Typography sx={{ fontWeight: "bold" }}>Nama Suami: </Typography>
+                                        <Typography sx={{ fontWeight: "bold" }}>Nama Suami: {userName}</Typography>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Typography sx={{ fontWeight: "bold", mb: 1 }}>Nama Isteri: </Typography>
+                                        <Typography sx={{ fontWeight: "bold", mb: 1 }}>Nama Isteri: {userPartnerName}</Typography>
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    {/* <Grid item xs={6}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <FormControl>
                                                 <DatePicker
@@ -439,7 +587,7 @@ export default function MarriageForm() {
                                                 />
                                             </FormControl>
                                         </LocalizationProvider>
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid item xs={12}>
                                         <TextField
                                             required
@@ -448,6 +596,7 @@ export default function MarriageForm() {
                                             label="Tempat Akad Nikah"
                                             name="marriagePlace"
                                             autoComplete="marriagePlace"
+                                            value={details.place}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -457,11 +606,13 @@ export default function MarriageForm() {
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
                                                 // value={gender || ""}
+                                                value={details.dowryType}
+
                                                 label="Jenis Mas Kahwin"
                                             // onChange={(e) => setGender(e.target.value)}
                                             >
-                                                <MenuItem>Tunai</MenuItem>
-                                                <MenuItem>Barang Kemas</MenuItem>
+                                                <MenuItem value={"Tunai"}>Tunai</MenuItem>
+                                                <MenuItem value={"Barang Kemas"}>Barang Kemas</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -477,6 +628,7 @@ export default function MarriageForm() {
                                                 startAdornment: <InputAdornment position="start">RM</InputAdornment>,
                                             }}
                                             type="number"
+                                            value={details.dowry}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -491,29 +643,12 @@ export default function MarriageForm() {
                                                 startAdornment: <InputAdornment position="start">RM</InputAdornment>,
                                             }}
                                             type="number"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            required
-                                            fullWidth
-                                            id="otherGifts"
-                                            label="Pemberian Lain"
-                                            name="otherGifts"
-                                            autoComplete="otherGifts"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            required
-                                            fullWidth
-                                            id="matchmaker"
-                                            label="Nama Jurunikah"
-                                            name="matchmaker"
-                                            autoComplete="matchmaker"
-                                        />
-                                    </Grid>
+                                            value={details.gift}
 
+
+                                        />
+                                    </Grid>
+                                   
 
                                     <Grid item xs={12}>
                                         <Box sx={{ bgcolor: "#F3486A", py: 1, color: "white" }}>
@@ -528,6 +663,8 @@ export default function MarriageForm() {
                                             label="Nama Wali"
                                             name="waliName"
                                             autoComplete="waliName"
+                                            value={details.waliName}
+
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -539,6 +676,8 @@ export default function MarriageForm() {
                                             name="waliIc"
                                             autoComplete="waliIc"
                                             type="number"
+                                            value={details.waliIc}
+
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -551,19 +690,21 @@ export default function MarriageForm() {
                                             autoComplete="waliAddress"
                                             multiline
                                             rows={3}
+                                            value={details.waliAddress}
+
                                         />
                                     </Grid>
-                                    <Grid item xs={4}>
+                                    {/* <Grid item xs={4}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <FormControl>
                                                 <DatePicker
                                                     label={<Grid sx={{ display: 'flex' }}>Tarikh Lahir Wali<Typography sx={{ color: 'red' }}>*</Typography></Grid>}
-                                                    value={date}
+                                                    value={details.waliBirth}
                                                     onChange={(newDate) => setDate(newDate)}
                                                 />
                                             </FormControl>
                                         </LocalizationProvider>
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid item xs={4}>
                                         <TextField
                                             required
@@ -572,6 +713,8 @@ export default function MarriageForm() {
                                             label="Umur Wali"
                                             name="waliAge"
                                             autoComplete="waliAge"
+                                            value={details.waliAge}
+
                                         />
                                     </Grid>
                                     <Grid item xs={4}>
@@ -582,6 +725,8 @@ export default function MarriageForm() {
                                             label="Hubungan"
                                             name="relay"
                                             autoComplete="relay"
+                                            value={details.waliRelay}
+
                                         />
                                     </Grid>
 
@@ -599,6 +744,8 @@ export default function MarriageForm() {
                                             label="Nama Saksi(1)"
                                             name="wit1Name"
                                             autoComplete="wit1Name"
+                                            value={details.wit1Name}
+
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -610,6 +757,8 @@ export default function MarriageForm() {
                                             name="wit1Ic"
                                             autoComplete="wit1Ic"
                                             type="number"
+                                            value={details.wit1Ic}
+
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -621,6 +770,8 @@ export default function MarriageForm() {
                                             name="wit1Age"
                                             autoComplete="wit1Age"
                                             type="number"
+                                            value={details.wit1Age}
+
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -633,6 +784,8 @@ export default function MarriageForm() {
                                             autoComplete="wit1Address"
                                             multiline
                                             rows={3}
+                                            value={details.wit1Address}
+
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -643,6 +796,8 @@ export default function MarriageForm() {
                                             label="Nama Saksi(2)"
                                             name="wit2Name"
                                             autoComplete="wit2Name"
+                                            value={details.wit2Name}
+
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -654,6 +809,8 @@ export default function MarriageForm() {
                                             name="wit2Ic"
                                             autoComplete="wit2Ic"
                                             type="number"
+                                            value={details.wit2Ic}
+
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -665,6 +822,8 @@ export default function MarriageForm() {
                                             name="wit2Age"
                                             autoComplete="wit2Age"
                                             type="number"
+                                            value={details.wit2Age}
+
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -677,6 +836,8 @@ export default function MarriageForm() {
                                             autoComplete="wit2Address"
                                             multiline
                                             rows={3}
+                                            value={details.wit2Address}
+
                                         />
                                     </Grid>
 
@@ -733,8 +894,10 @@ export default function MarriageForm() {
     }
 
     const handleNext = () => {
+
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
+
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);

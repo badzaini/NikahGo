@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -8,13 +9,33 @@ import {
     Paper
 } from '@mui/material'
 import { useRouter } from 'next/router';
+import { getCourseDetails } from '../api/course';
 
 export default function CourseDetails() {
     const router = useRouter(); // Initialize the router variable using the useRouter hook
+    const [course, setCourse] = useState([]);
 
     const handleBack = () => {
         router.push("/PreMarriageCourse/ChooseCourse");
     };
+
+    useEffect(() => {
+        const fetchCourseDetails = async () => {
+            const courseId = router.query.id;
+            if (courseId) {
+                try {
+                    const response = await getCourseDetails({ courseId });
+                    console.log(response);
+                    setCourse(response);
+                } catch (error) {
+                    console.log('Error fetching course details:', error);
+                }
+            }
+        };
+
+        fetchCourseDetails();
+    }, [router.query.id]);
+
 
     return (
         <Stack spacing={2}>
@@ -29,21 +50,18 @@ export default function CourseDetails() {
                     </Typography>
                 </Box>
                 <br />
-                <Container sx={{ display: "", justifyContent: "center", width: "70%", height: "100%", backgroundColor:"#faf5f5"}} component={Paper}>
-                <br />
+                <Container sx={{ display: "", justifyContent: "center", width: "70%", height: "100%", backgroundColor: "#faf5f5" }} component={Paper}>
+                    <br />
                     <Typography variant="body" component='p'>
-                        <b>Anjuran:</b><br /><br />
-                        <b>Tempat:</b><br /><br />
-                        <b>Alamat:</b><br /><br />
-                        <b>Daerah:</b><br /><br />
-                        <b>Yuran Kursus:</b><br /><br />
-                        <b>Tarikh:</b><br /><br />
-                        <b>Masa:</b><br /><br />
-                        <b>Yuran Kursus Pra Perkahwinan:</b><br /><br />
-                        <b>Kapasiti Peserta:</b><br /><br />
-                        <b>Siri Taklimat:</b><br /><br />
-                        <b>Pengawai Dihubungi:</b><br /><br />
-                        <b>No Telefon:</b><br /><br />
+                        <b>Tempat:</b>{course.place}<br /><br />
+                        <b>Alamat:</b>{course.address}<br /><br />
+                        <b>Daerah:</b>{course.city}<br /><br />
+                        <b>Yuran Kursus:</b>{course.price}<br /><br />
+                        <b>Tarikh:</b>{course.dateStart}<br /><br />
+                        <b>Masa:</b>{course.timeStart}<br /><br />
+                        <b>Kapasiti Peserta:</b>{course.capacity}<br /><br />
+                        <b>Pengawai Dihubungi:</b>{course.pic}<br /><br />
+                        <b>No Telefon:</b>{course.picPhone}<br /><br />
                     </Typography>
 
                     <Box align="center">

@@ -38,6 +38,7 @@ function Copyright(props) {
 }
 
 export default function SignUp() {
+  //Declare vaariable
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [ic, setIc] = useState();
@@ -46,6 +47,8 @@ export default function SignUp() {
   const [password, setPassword] = useState();
 
   const router = useRouter();
+
+  //Pakai data ni untuk masuk dalam db
   const data = {
     email: email,
     name: name,
@@ -53,17 +56,18 @@ export default function SignUp() {
     phone: phone,
     gender: gender,
   };
+
+  //Function SignUp Masuk DB
   const handleSubmit = (event) => {
     event.preventDefault();
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
         console.log("User created:", user);
-        // ...
         async function insertData() {
           if (user) {
+            //Passkan data dalam apiRequest
             const result = await registerUser({ data });
             console.log(result);
             console.log("Succes to db");

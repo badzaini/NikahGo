@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -18,6 +19,7 @@ import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import SearchIcon from '@mui/icons-material/Search';
 import { useRouter } from 'next/router';
+import { getAllBookings } from '../api/course';
 
 function createData(bil, namepemohon, mykad, jantina, kehadiran, operasi) {
     return { bil, namepemohon, mykad, jantina, kehadiran, operasi };
@@ -30,7 +32,22 @@ const rows = [
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function AdminApproval() {
+    const [bookings, setBookings] = useState([]);
     const router = useRouter(); // Initialize the router variable using the useRouter hook
+
+    useEffect(() => {
+        const fetchBookings = async () => {
+            try {
+                const response = await getAllBookings();
+                setBookings(response);
+                console.log(response);
+            } catch (error) {
+                console.log('Error fetching courses:', error);
+            }
+        };
+
+        fetchBookings();
+    }, []);
 
     const handleBack = () => {
         router.push("/PreMarriageCourse/AdminAttendance");
@@ -42,29 +59,13 @@ export default function AdminApproval() {
     return (
         <Stack spacing={2}>
 
-            <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40, mb: 10 }} component={Paper}>
+            <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 20, ml: 40, mb: 10 }} component={Paper}>
 
                 <Box>
                     <br />
                     <Typography variant="h4">
                         <b>Maklumat Peserta - Kelulusan</b>
                     </Typography>
-
-                    <Box sx={{ marginTop: 2, bgcolor: '#49516F', color: 'white', width: 500, height: 30, borderRadius: 1 }}>
-                        <Typography variant="body" sx={{ fontSize: '20px', marginLeft: 6 }}>
-                            Senarai Peserta Pra Perkahwinan - Kelulusan
-                        </Typography>
-                    </Box>
-                    <br />
-                    <br />
-                    <Typography component="p">
-                        <b>Anjuran: </b> <br /> {/* example output: PEJABAT AGAMA ISLAM TEMERLOH*/}
-                        <b>Siri Kursus: </b> <br /> {/* example output: KTN/0001/2023*/}
-                        <b>Tarikh Kursus: </b> <br /> {/* example output: 03/01/2023 - 04/01/2023*/}
-                        <b>Tempat Kursus: </b> <br /> {/* example output: DEWAN TARBIAN ISLAM PERAMU*/}
-                    </Typography>
-                    <hr />
-                    <br />
                 </Box>
                 <Container>
                     <br />
@@ -73,34 +74,23 @@ export default function AdminApproval() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center"><b>Bil.</b></TableCell>
-                                    <TableCell align="center"><b>Nama Pemohon</b></TableCell>
-                                    <TableCell align="center"><b>NO. Kad Pengenalan</b></TableCell>
-                                    <TableCell align="center"><b>Jantina</b></TableCell>
-                                    <TableCell align="center"><b>Kehadiran</b></TableCell>
+                                    <TableCell align="center"><b>No. Kad Pengenalan</b></TableCell>
+                                    <TableCell align="center"><b>No. Kursus</b></TableCell>
                                     <TableCell align="center"><b>Operasi</b></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row) => (
+                                {bookings.map((d, i) => (
                                     <TableRow
-                                        key={row.bil}
+                                        key={i}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">
-                                            1.
-                                            {row.bil}
+                                            {i + 1}
                                         </TableCell>
-                                        <TableCell align="center">ALIA FILZAH BT MOHD ROSLI{row.namepemohon}</TableCell>
-                                        <TableCell align="center">030717060762{row.mykad}</TableCell>
-                                        <TableCell align="center">PEREMPUAN{row.jantina}</TableCell>
-                                        <TableCell align="center">HADIR{row.kehadiran}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {/* this checkbox is to tick peserta course kelulusan*/}
-                                            <div>
-                                                <Checkbox {...label} />{row.operasi}
-                                            </div>
-                                        </TableCell>
+                                        <TableCell align="center">{d.userBookingId}</TableCell>
+                                        <TableCell align="center">{d.courseId}</TableCell>
+                                        <TableCell align="center">{d.status}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

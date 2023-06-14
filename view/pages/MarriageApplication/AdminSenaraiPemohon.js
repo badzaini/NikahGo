@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
     Button,
     Typography,
@@ -23,40 +24,42 @@ import PageviewIcon from '@mui/icons-material/Pageview';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
+import { getAllMarriageReqs } from '../api/marriage';
 
 export default function AdminSenaraiPemohon() {
+    const [marriages, setMarriages] = useState([]);
     const router = useRouter(); // Initialize the router variable using the useRouter hook
 
     const handleConfirmViewPP = () => {
-      router.push("/MarriageApplication/AdminProofPayment");
+        router.push("/MarriageApplication/AdminProofPayment");
     };
 
     const handleConfirmApprovePP = () => {
-      router.push("");
+        router.push("");
     };
 
     const handleConfirmDisapprovePP = () => {
-      router.push("");
+        router.push("");
     };
 
     const handleConfirmApproveViewAppForm = () => {
-      router.push("/MarriageApplication/AdminMarraigeAppForm");
+        router.push("/MarriageApplication/AdminMarraigeAppForm");
     };
 
     const handleConfirmApproveEditAppForm = () => {
-      router.push("/MarriageApplication/AdminMarraigeAppForm");
+        router.push("/MarriageApplication/AdminMarraigeAppForm");
     };
 
     const handleConfirmApproveMarriageApp = () => {
-      router.push("");
+        router.push("");
     };
 
     const handleConfirmDisapproveMarriageApp = () => {
-      router.push("");
+        router.push("");
     };
 
     const handleConfirmApproveDeleteAppForm = () => {
-      router.push("");
+        router.push("");
     };
 
 
@@ -108,6 +111,20 @@ export default function AdminSenaraiPemohon() {
         createData('3.', '', '', '', 'DTERIMA', true, true),
     ];
 
+    useEffect(() => {
+        const fetchMarriages = async () => {
+            try {
+                const response = await getAllMarriageReqs();
+                setMarriages(response);
+                console.log(response);
+            } catch (error) {
+                console.log('Error fetching courses:', error);
+            }
+        };
+
+        fetchMarriages();
+    }, []);
+
     return (
         <Stack spacing={2}>
             <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }} component={Paper}>
@@ -115,51 +132,36 @@ export default function AdminSenaraiPemohon() {
 
                 <Typography variant="h4"><b>Permohonan Berkahwin - Senarai Pemohon</b></Typography>
 
-                {/*this is the name pemohon for searching function*/}
-                <Box sx={{ py: 3, display: "flex", justifyContent: "right" }}>
-                    <Paper
-                        component="form"
-                        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300 }}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1 }}
-                            placeholder="Pilih Carian"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                            <SearchIcon />
-                        </IconButton>
-                    </Paper>
-                </Box>
-
-                <TableContainer sx={{ minWidth: 500 }} component={Paper}>
+                <TableContainer sx={{ minWidth: 500, mt: 10 }} component={Paper}>
                     <Table sx={{ minWidth: 400 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center"><b>Bil.</b></TableCell>
                                 <TableCell align="center"><b>No.KP/Nama Pemohon</b></TableCell>
-                                <TableCell align="center"><b>No.Slip Permohonan</b></TableCell>
-                                <TableCell align="center"><b>Tarikh Mohon</b></TableCell>
+                                <TableCell align="center"><b>No.KP/Nama Pasangan</b></TableCell>
                                 <TableCell align="center"><b>Status</b></TableCell>
-                                <TableCell align="center"><b>Resit Pembayaran</b></TableCell>
                                 <TableCell align="center"><b>Operasi</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {marriages.map((d, i) => (
                                 <TableRow
-                                    key={row.bil}
+                                    key={i}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row">
-                                        {row.bil}
+                                        {i + 1}
                                     </TableCell>
-                                    <TableCell align="center">{row.icnamapemohon}</TableCell>
-                                    <TableCell align="center">{row.noslippemohon}</TableCell>
-                                    <TableCell align="center">{row.tarikhmohon}</TableCell>
-                                    <TableCell align="center">{row.status}</TableCell>
-                                    <TableCell align="center" sx={{ width: '20%' }}>{row.resit}</TableCell>
-                                    <TableCell align="center" sx={{ width: '22%' }}>{row.operasi}</TableCell>
+                                    <TableCell align="center">{d.userMarriageIc}</TableCell>
+                                    <TableCell align="center">{d.partnerMarriageIc}</TableCell>
+                                    <TableCell align="center">{d.status}</TableCell>
+                                    <TableCell align="center">
+                                        <IconButton onClick={handleConfirmApproveViewAppForm} type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
+                                            <PageviewIcon />
+                                        </IconButton>
+                                        <IconButton onClick={handleConfirmApproveDeleteAppForm} type="button" sx={{ p: '10px', color: 'black' }} aria-label="disapprove">
+                                            <DeleteIcon />
+                                        </IconButton></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
