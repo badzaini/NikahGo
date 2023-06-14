@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import {
     TableContainer,
@@ -18,21 +19,25 @@ import {
     Divider
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import { getMarriageRegs } from '../api/marriage';
 
 export default function Request() {
+    const [marriages, setMarriages] = useState([]);
     const router = useRouter();
+
+    useEffect(() => {
+        const fetchMarriages = async () => {
+            try {
+                const response = await getMarriageRegs();
+                setMarriages(response);
+                console.log(response);
+            } catch (error) {
+                console.log('Error fetching courses:', error);
+            }
+        };
+
+        fetchMarriages();
+    }, []);
 
     const handleDaftar = () => {
         router.push("/MarriageRegistration/Registration");
@@ -42,7 +47,7 @@ export default function Request() {
             <Box>
                 <Typography variant="h4" gutterBottom sx={{ borderLeft: "13px solid black" }}>Pendaftaran Perkahwinan</Typography>
             </Box>
-            <Box sx={{ py: 3, display: "flex", justifyContent: "center" }}>
+            {/* <Box sx={{ py: 3, display: "flex", justifyContent: "center" }}>
                 <Paper
                     component="form"
                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300 }}
@@ -56,7 +61,7 @@ export default function Request() {
                         <SearchIcon />
                     </IconButton>
                 </Paper>
-            </Box>
+            </Box> */}
             <Box sx={{ pb: 1 }}>
                 <Button variant="contained" onClick={handleDaftar} sx={{ float: "right" }}>Daftar</Button>
             </Box>
@@ -65,23 +70,20 @@ export default function Request() {
                     <TableHead>
                         <TableRow>
                             <TableCell>Bil</TableCell>
-                            <TableCell align="right">No. K/P</TableCell>
-                            <TableCell align="right">No. Slip Permohonan</TableCell>
-                            <TableCell align="right">Tarikh Mohon</TableCell>
-                            <TableCell align="right">Status</TableCell>
-                            <TableCell align="right">Operasi</TableCell>
+                            <TableCell align="left">No. K/P</TableCell>
+                            <TableCell align="left">No. Slip Permohonan</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                            </TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                        </TableRow>
+                        {marriages.map((d, i) => (
+                            <TableRow key={i}>
+                                <TableCell component="th" scope="row">
+                                    {i + 1}
+                                </TableCell>
+                                <TableCell align="left">{d.userMarriageRegId}</TableCell>
+                                <TableCell align="left">{d.slipNo}</TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>

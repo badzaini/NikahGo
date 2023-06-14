@@ -1,5 +1,6 @@
 import apiRequest from "../../../utils/apiRequest";
 
+//Register
 export async function registerUser({ data }) {
     const res = await apiRequest({
         path: "/users/register",
@@ -33,6 +34,15 @@ export async function updateProfile({ email, profileData }) {
         path: `/users/${email}/profile`,
         method: "PUT",
         body: profileData,
+    });
+
+    return res;
+}
+
+export async function getUserByIC({ IC }) {
+    const res = await apiRequest({
+        path: `/users/getUserByIC/${IC}`,
+        method: "GET",
     });
 
     return res;

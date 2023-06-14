@@ -1,54 +1,95 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import React from 'react'
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { styled, alpha } from '@mui/material/styles';
+import {
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Paper,
+    Container,
+    IconButton,
+    InputBase,
+    Typography,
+    Box,
+    Button,
+    Divider
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { getAllIncentives } from '../api/incentive';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+export default function Request() {
+    const [incentives, setIncentives] = useState([]);
+    const router = useRouter();
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+    useEffect(() => {
+        const fetchIncentives = async () => {
+            try {
+                //apiREquest for GET ALL INCENTIVES
+                const response = await getAllIncentives();
+                setIncentives(response);
+                console.log(response);
+            } catch (error) {
+                console.log('Error fetching courses:', error);
+            }
+        };
 
-export default function request() {
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+        fetchIncentives();
+    }, []);
+
+    const handleDaftar = () => {
+        router.push("/Incentive/IncentiveForm");
+    }
+    return (
+        <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", mt: 20, width: 750 }}>
+            <Box>
+                <Typography variant="h4" gutterBottom sx={{ borderLeft: "13px solid black" }}>Bantuan Insentif Khas</Typography>
+            </Box>
+            {/* <Box sx={{ py: 3, display: "flex", justifyContent: "center" }}>
+                <Paper
+                    component="form"
+                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300 }}
+                >
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="No. K/P"
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                        <SearchIcon />
+                    </IconButton>
+                </Paper>
+            </Box> */}
+            <Box sx={{ pb: 1 }}>
+                <Button variant="contained" onClick={handleDaftar} sx={{ float: "right" }}>Daftar</Button>
+            </Box>
+            <TableContainer component={Paper} sx={{ maxWidth: 750 }}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Bil</TableCell>
+                            <TableCell align="left">No. K/P</TableCell>
+                            <TableCell align="left">No. K/P Pasangan</TableCell>
+                            <TableCell align="left">Status</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {incentives.map((d, i) => (
+                            <TableRow key={i}>
+                                <TableCell component="th" scope="row">
+                                    {i + 1}
+                                </TableCell>
+                                <TableCell align="left">{d.userIncentiveId}</TableCell>
+                                <TableCell align="left">{d.partnerIncentiveId}</TableCell>
+                                <TableCell align="left">{d.status}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Container>
+    )
 }

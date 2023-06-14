@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import {
     Button,
     Typography,
@@ -12,11 +12,14 @@ import {
     TableRow,
     TableBody,
     Table,
-    Paper
+    Paper,
+    IconButton
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import WarningIcon from '@mui/icons-material/Warning';
+import { getAllMarriageReqs } from '../api/marriage';
+import PageviewIcon from '@mui/icons-material/Pageview';
 
 function createData(bil, icpartnername, noslippermohonan, tarikh, status, operasi) {
     return { bil, icpartnername, noslippermohonan, tarikh, status, operasi };
@@ -27,11 +30,27 @@ const rows = [
 ];
 
 export default function FirstPage() {
+    const [marriages, setMarriages] = useState([]);
     const router = useRouter(); // Initialize the router variable using the useRouter hook
 
     const handleNext = () => {
-      router.push("/MarriageApplication/MarriageAppForm");
+        router.push("/MarriageApplication/MarriageAppForm");
     };
+
+    useEffect(() => {
+        const fetchMarriages = async () => {
+            try {
+                const response = await getAllMarriageReqs();
+                setMarriages(response);
+                console.log(response);
+            } catch (error) {
+                console.log('Error fetching courses:', error);
+            }
+        };
+
+        fetchMarriages();
+    }, []);
+
     return (
         <Stack spacing={2}>
             <Container sx={{ display: "", justifyContent: "center", width: "100%", height: "100%", mt: 10, ml: 40 }} component={Paper}>
@@ -75,28 +94,29 @@ export default function FirstPage() {
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center"><b>Bil.</b></TableCell>
+                                <TableCell align="center"><b>KP/Name Pemohon</b></TableCell>
                                 <TableCell align="center"><b>KP/Name Pesangan</b></TableCell>
-                                <TableCell align="center"><b>No. Slip Permohonan</b></TableCell>
-                                <TableCell align="center"><b>Tarikh Mohon</b></TableCell>
                                 <TableCell align="center"><b>Status</b></TableCell>
                                 <TableCell align="center"><b>Operasi</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {marriages.map((d, i) => (
                                 <TableRow
-                                    key={row.bil}
+                                    key={i}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row">
-                                        {row.bil}
+                                        {i + 1}
                                     </TableCell>
-                                    <TableCell align="center">{row.tarikhpemohon}</TableCell>
-                                    <TableCell align="center">{row.icpartnername}</TableCell>
-                                    <TableCell align="center">{row.noslippermohonan}</TableCell>
-                                    <TableCell align="center">{row.tarikh}</TableCell>
-                                    <TableCell align="center">{row.status}</TableCell>
-                                    <TableCell align="center">{row.operasi}</TableCell>
+                                    <TableCell align="center">{d.userMarriageIc}</TableCell>
+                                    <TableCell align="center">{d.partnerMarriageIc}</TableCell>
+                                    <TableCell align="center">{d.status}</TableCell>
+                                    <TableCell align="center">
+                                        <IconButton type="button" sx={{ p: '10px', color: 'black' }} aria-label="view">
+                                            <PageviewIcon />
+                                        </IconButton>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -111,7 +131,7 @@ export default function FirstPage() {
                     </Typography>
                 </Box>
                 <br />
-            
+
                 <Box sx={{ minWidth: 500 }} align="center">
                     <Button variant="contained" onClick={handleNext}>Daftar Baru</Button>
                 </Box>

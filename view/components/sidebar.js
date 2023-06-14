@@ -57,14 +57,16 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <GroupsIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Permohonan Berkahwin" />
-                            </ListItemButton>
-                        </ListItem>
+                        <Link href="/MarriageApplication/FirstPage">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <GroupsIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Permohonan Berkahwin" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                         <Link href="/MarriageRegistration/Request">
                             <ListItem disablePadding>
                                 <ListItemButton>
@@ -85,7 +87,7 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        <Link href="/module4/consultationApplicationView/ConsultationRegisterList">
+                        <Link href="/ConsultationApplicationView/ConsultationRegisterList">
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
@@ -95,15 +97,16 @@ const Sidebar = () => {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <AttachMoneyIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Insentif Khas" />
-                            </ListItemButton>
-                        </ListItem>
+                        <Link href="/Incentive/Request">
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <AttachMoneyIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Insentif Khas" />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                     </List>
                 </Box>
             </Drawer>

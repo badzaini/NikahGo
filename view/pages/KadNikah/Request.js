@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import {
     TableContainer,
@@ -18,6 +19,8 @@ import {
     Divider
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { getMarriageRegs } from '../api/marriage';
+import { getAllRequest } from '../api/kadNikah';
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -32,11 +35,28 @@ const rows = [
 ];
 
 export default function Request() {
+    const [requests, setRequests] = useState([]);
+
     const router = useRouter();
 
     const handleDaftar = () => {
         router.push("/KadNikah/Apply");
     }
+
+    useEffect(() => {
+        const fetchRequests = async () => {
+            try {
+                const response = await getAllRequest();
+                setRequests(response);
+                console.log(response);
+            } catch (error) {
+                console.log('Error fetching courses:', error);
+            }
+        };
+
+        fetchRequests();
+    }, []);
+
     return (
         <Container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", mt: 20, width: 750 }}>
             <Box>
@@ -65,23 +85,23 @@ export default function Request() {
                     <TableHead>
                         <TableRow>
                             <TableCell>Bil</TableCell>
-                            <TableCell align="right">No. K/P</TableCell>
-                            <TableCell align="right">No. Slip Permohonan</TableCell>
-                            <TableCell align="right">Tarikh Mohon</TableCell>
-                            <TableCell align="right">Status</TableCell>
-                            <TableCell align="right">Operasi</TableCell>
+                            <TableCell align="left">No. K/P</TableCell>
+                            <TableCell align="left">No. Slip Permohonan</TableCell>
+                            <TableCell align="left">Status</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                            </TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
-                        </TableRow>
+                        {requests.map((d, i) => (
+                            <TableRow key={i}>
+                                <TableCell component="th" scope="row">
+                                    {i + 1}
+                                </TableCell>
+                                <TableCell align="left">{d.userKadName}</TableCell>
+                                <TableCell align="left">{d.partnerKadName}</TableCell>
+                                <TableCell align="left">{d.status}</TableCell>
+                            </TableRow>
+                        ))}
+
                     </TableBody>
                 </Table>
             </TableContainer>

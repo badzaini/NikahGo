@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../model/user.model");
 const asyncHandler = require("express-async-handler");
 
+//Function ADD for register
 const register = asyncHandler(async (req, res) => {
     const { email, name, ic, phone, gender } = req.body;
 
@@ -36,6 +37,8 @@ const register = asyncHandler(async (req, res) => {
     res.status(200).json({ userData });
 });
 
+
+//Function GET for Login
 const login = asyncHandler(async (req, res) => {
     const email = req.params.email;
 
@@ -54,6 +57,7 @@ const login = asyncHandler(async (req, res) => {
     res.status(200).json({ user });
 });
 
+//Function for GET ALL USERS
 const getAllUsers = asyncHandler(async (req, res) => {
     const users = await User.find();
 
@@ -65,12 +69,13 @@ const getAllUsers = asyncHandler(async (req, res) => {
     }
 });
 
+//FUnction UPDATE
 const updateProfile = asyncHandler(async (req, res) => {
-    const ic = req.params.ic;
+    const email = req.params.email;
     const profileData = req.body;
 
     try {
-        const users = await User.findOneAndUpdate(ic, profileData, { new: true });
+        const users = await User.findOneAndUpdate({"email": email}, profileData, { upsert: true, new: true });
 
         if (users) {
             res.status(200).json(users);
@@ -83,5 +88,19 @@ const updateProfile = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { register, login, getAllUsers, updateProfile };
+const getUserByIC = asyncHandler(async (req, res) => {
+    const ic = req.params.IC;
+
+    try {
+        const users = await User.findOne({ "ic": ic });
+
+        if (users) {
+            res.status(201).json(users);
+        }
+    } catch (err) {
+        throw new Error(err);
+    }
+})
+
+module.exports = { register, login, getAllUsers, updateProfile, getUserByIC };
 
